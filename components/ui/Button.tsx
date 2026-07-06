@@ -1,10 +1,10 @@
 'use client';
 
-import { ButtonHTMLAttributes, forwardRef } from 'react';
-import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<'button'> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
@@ -99,9 +99,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <Loader2 className="w-4 h-4 animate-spin absolute" />
         )}
         <span className={`flex items-center gap-2 ${isLoading ? 'opacity-0' : ''}`}>
-          {leftIcon}
-          {children}
-          {rightIcon}
+          {leftIcon as React.ReactNode}
+          {children as React.ReactNode}
+          {rightIcon as React.ReactNode}
         </span>
       </motion.button>
     );

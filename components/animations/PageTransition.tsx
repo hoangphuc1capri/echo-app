@@ -1,13 +1,13 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
 interface PageTransitionProps {
   children: React.ReactNode;
 }
 
-const pageVariants = {
+const pageVariants: Variants = {
   initial: {
     opacity: 0,
     y: 20,
@@ -30,7 +30,7 @@ const pageVariants = {
   },
 };
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -41,7 +41,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -75,7 +75,7 @@ export const MotionDiv = motion.div;
 export const MotionSection = motion.section;
 export const MotionCard = motion.div;
 
-export const fadeInUp = {
+export const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -87,7 +87,7 @@ export const fadeInUp = {
   },
 };
 
-export const fadeIn = {
+export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -98,7 +98,7 @@ export const fadeIn = {
   },
 };
 
-export const scaleIn = {
+export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
@@ -110,7 +110,7 @@ export const scaleIn = {
   },
 };
 
-export const slideInFromLeft = {
+export const slideInFromLeft: Variants = {
   hidden: { opacity: 0, x: -30 },
   visible: {
     opacity: 1,
@@ -122,7 +122,7 @@ export const slideInFromLeft = {
   },
 };
 
-export const slideInFromRight = {
+export const slideInFromRight: Variants = {
   hidden: { opacity: 0, x: 30 },
   visible: {
     opacity: 1,
