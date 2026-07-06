@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Sprite Sheet: Nhánh Tñ Chç (Xanh lá) - 4 giai o¡n -->
+  
+  <!-- Stage 1: Tiny sprout (0-200) -->
+  <g transform="translate(0, 0)">
+    <!-- Background glow -->
+    <ellipse cx="100" cy="180" rx="60" ry="15" fill="#2D5016" opacity="0.2"/>
+    
+    <!-- Pot -->
+    <path d="M70 160 L75 190 L125 190 L130 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="100" cy="160" rx="32" ry="8" fill="#A67C00"/>
+    
+    <!-- Soil -->
+    <ellipse cx="100" cy="162" rx="28" ry="6" fill="#3D2B22"/>
+    
+    <!-- Tiny sprout -->
+    <path d="M100 162 Q100 150 98 140" stroke="#4A7C23" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="95" cy="138" rx="8" ry="5" fill="#4A7C23" transform="rotate(-20 95 138)"/>
+    <ellipse cx="103" cy="138" rx="8" ry="5" fill="#4A7C23" transform="rotate(20 103 138)"/>
+  </g>
+  
+  <!-- Stage 2: Small sapling (200-400) -->
+  <g transform="translate(200, 0)">
+    <ellipse cx="300" cy="180" rx="60" ry="15" fill="#2D5016" opacity="0.2"/>
+    
+    <!-- Pot -->
+    <path d="M270 160 L275 190 L325 190 L330 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="300" cy="160" rx="32" ry="8" fill="#A67C00"/>
+    <ellipse cx="300" cy="162" rx="28" ry="6" fill="#3D2B22"/>
+    
+    <!-- Small trunk -->
+    <path d="M300 162 L300 110" stroke="#5C4033" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Branches -->
+    <path d="M300 130 Q280 125 275 115" stroke="#4A7C23" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M300 130 Q320 125 325 115" stroke="#4A7C23" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Leaves cluster -->
+    <circle cx="275" cy="108" r="15" fill="#4A7C23"/>
+    <circle cx="325" cy="108" r="15" fill="#4A7C23"/>
+    <circle cx="300" cy="95" r="18" fill="#5A8F2A"/>
+    <circle cx="290" cy="105" r="12" fill="#6BA032"/>
+    <circle cx="310" cy="105" r="12" fill="#6BA032"/>
+  </g>
+  
+  <!-- Stage 3: Growing tree (400-600) -->
+  <g transform="translate(400, 0)">
+    <ellipse cx="500" cy="180" rx="60" ry="15" fill="#2D5016" opacity="0.2"/>
+    
+    <!-- Pot -->
+    <path d="M470 160 L475 190 L525 190 L530 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="500" cy="160" rx="32" ry="8" fill="#A67C00"/>
+    <ellipse cx="500" cy="162" rx="28" ry="6" fill="#3D2B22"/>
+    
+    <!-- Thick trunk -->
+    <path d="M500 162 L500 100" stroke="#5C4033" stroke-width="10" stroke-linecap="round"/>
+    
+    <!-- Branches -->
+    <path d="M500 130 Q470 120 460 100" stroke="#5C4033" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M500 130 Q530 120 540 100" stroke="#5C4033" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M500 110 Q480 100 475 80" stroke="#5C4033" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M500 110 Q520 100 525 80" stroke="#5C4033" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Lush foliage -->
+    <circle cx="460" cy="90" r="22" fill="#4A7C23"/>
+    <circle cx="540" cy="90" r="22" fill="#4A7C23"/>
+    <circle cx="500" cy="60" r="28" fill="#4A7C23"/>
+    <circle cx="475" cy="70" r="18" fill="#5A8F2A"/>
+    <circle cx="525" cy="70" r="18" fill="#5A8F2A"/>
+    <circle cx="500" cy="85" r="20" fill="#5A8F2A"/>
+    <circle cx="480" cy="55" r="12" fill="#6BA032"/>
+    <circle cx="520" cy="55" r="12" fill="#6BA032"/>
+  </g>
+  
+  <!-- Stage 4: Lush bonsai (600-800) -->
+  <g transform="translate(600, 0)">
+    <ellipse cx="700" cy="180" rx="70" ry="18" fill="#2D5016" opacity="0.3"/>
+    
+    <!-- Decorative pot -->
+    <path d="M660 155 L665 190 L735 190 L740 155 Z" fill="#8B6914" stroke="#5C4033" stroke-width="3"/>
+    <ellipse cx="700" cy="155" rx="42" ry="10" fill="#A67C00"/>
+    <ellipse cx="700" cy="158" rx="38" ry="8" fill="#3D2B22"/>
+    
+    <!-- Strong trunk -->
+    <path d="M700 158 Q695 130 700 100 Q705 70 700 50" stroke="#5C4033" stroke-width="14" fill="none" stroke-linecap="round"/>
+    
+    <!-- Visible strong roots -->
+    <path d="M700 158 Q680 165 665 170" stroke="#5C4033" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M700 158 Q720 165 735 170" stroke="#5C4033" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M700 158 Q690 170 685 180" stroke="#5C4033" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M700 158 Q710 170 715 180" stroke="#5C4033" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Branches -->
+    <path d="M700 80 Q670 70 650 60" stroke="#5C4033" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M700 80 Q730 70 750 60" stroke="#5C4033" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M700 65 Q685 50 680 35" stroke="#5C4033" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M700 65 Q715 50 720 35" stroke="#5C4033" stroke-width="5" fill="none" stroke-linecap="round"/>
+    
+    <!-- Deep lush canopy -->
+    <circle cx="650" cy="50" r="28" fill="#4A7C23"/>
+    <circle cx="750" cy="50" r="28" fill="#4A7C23"/>
+    <circle cx="680" cy="28" r="25" fill="#4A7C23"/>
+    <circle cx="720" cy="28" r="25" fill="#4A7C23"/>
+    <circle cx="700" cy="15" r="30" fill="#4A7C23"/>
+    <circle cx="700" cy="45" r="22" fill="#5A8F2A"/>
+    <circle cx="665" cy="40" r="15" fill="#5A8F2A"/>
+    <circle cx="735" cy="40" r="15" fill="#5A8F2A"/>
+    <circle cx="690" cy="20" r="12" fill="#6BA032"/>
+    <circle cx="710" cy="20" r="12" fill="#6BA032"/>
+  </g>
+</svg>

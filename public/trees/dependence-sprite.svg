@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Sprite Sheet: Nhánh LÇ ThuÙc AI (Vàng kim) - 4 giai o¡n -->
+  
+  <!-- Stage 1: Tall pale sprout (0-200) -->
+  <g transform="translate(0, 0)">
+    <!-- Magical glow background -->
+    <ellipse cx="100" cy="180" rx="50" ry="12" fill="#C9A227" opacity="0.3"/>
+    
+    <!-- Pot -->
+    <path d="M75 160 L78 185 L122 185 L125 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="100" cy="160" rx="27" ry="7" fill="#A67C00"/>
+    <ellipse cx="100" cy="162" rx="23" ry="5" fill="#3D2B22"/>
+    
+    <!-- Tall thin sprout -->
+    <path d="M100 162 Q98 130 100 100" stroke="#D4AF37" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="95" rx="6" ry="12" fill="#E5C44A" transform="rotate(-5 100 95)"/>
+    <ellipse cx="100" cy="95" rx="6" ry="12" fill="#E5C44A" transform="rotate(5 100 95)"/>
+    
+    <!-- Glow effect -->
+    <ellipse cx="100" cy="100" rx="25" ry="40" fill="url(#glowYellow1)" opacity="0.5"/>
+  </g>
+  
+  <!-- Stage 2: Tall fragile sapling (200-400) -->
+  <g transform="translate(200, 0)">
+    <ellipse cx="300" cy="180" rx="50" ry="12" fill="#C9A227" opacity="0.3"/>
+    
+    <!-- Pot -->
+    <path d="M275 160 L278 185 L322 185 L325 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="300" cy="160" rx="27" ry="7" fill="#A67C00"/>
+    <ellipse cx="300" cy="162" rx="23" ry="5" fill="#3D2B22"/>
+    
+    <!-- Thin tall trunk -->
+    <path d="M300 162 Q295 120 300 80" stroke="#B8860B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Thin branches -->
+    <path d="M300 100 Q275 90 270 70" stroke="#C9A227" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M300 100 Q325 90 330 70" stroke="#C9A227" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Bright golden leaves -->
+    <circle cx="270" cy="65" r="12" fill="#E5C44A"/>
+    <circle cx="330" cy="65" r="12" fill="#E5C44A"/>
+    <circle cx="300" cy="55" r="14" fill="#F0D547"/>
+    <circle cx="285" cy="75" r="8" fill="#D4AF37"/>
+    <circle cx="315" cy="75" r="8" fill="#D4AF37"/>
+    
+    <!-- Glow effect -->
+    <ellipse cx="300" cy="85" rx="40" ry="55" fill="url(#glowYellow2)" opacity="0.4"/>
+  </g>
+  
+  <!-- Stage 3: Top-heavy tree (400-600) -->
+  <g transform="translate(400, 0)">
+    <ellipse cx="500" cy="180" rx="55" ry="14" fill="#C9A227" opacity="0.35"/>
+    
+    <!-- Pot -->
+    <path d="M472 160 L476 188 L524 188 L528 160 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="500" cy="160" rx="30" ry="8" fill="#A67C00"/>
+    <ellipse cx="500" cy="162" rx="26" ry="6" fill="#3D2B22"/>
+    
+    <!-- Thin curved trunk (bent under weight) -->
+    <path d="M500 162 Q495 130 500 100 Q505 70 500 50" stroke="#B8860B" stroke-width="5" fill="none" stroke-linecap="round"/>
+    
+    <!-- Thin sprawling branches -->
+    <path d="M500 80 Q460 60 440 40" stroke="#C9A227" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M500 80 Q540 60 560 40" stroke="#C9A227" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M500 65 Q470 50 455 30" stroke="#C9A227" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M500 65 Q530 50 545 30" stroke="#C9A227" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Top-heavy golden foliage -->
+    <circle cx="440" cy="30" r="20" fill="#E5C44A"/>
+    <circle cx="560" cy="30" r="20" fill="#E5C44A"/>
+    <circle cx="500" cy="15" r="25" fill="#F0D547"/>
+    <circle cx="455" cy="22" r="15" fill="#E5C44A"/>
+    <circle cx="545" cy="22" r="15" fill="#E5C44A"/>
+    <circle cx="470" cy="40" r="10" fill="#D4AF37"/>
+    <circle cx="530" cy="40" r="10" fill="#D4AF37"/>
+    <circle cx="500" cy="35" r="12" fill="#D4AF37"/>
+    
+    <!-- Glow effect -->
+    <ellipse cx="500" cy="40" rx="60" ry="70" fill="url(#glowYellow3)" opacity="0.35"/>
+  </g>
+  
+  <!-- Stage 4: Hollow glowing lantern tree (600-800) -->
+  <g transform="translate(600, 0)">
+    <ellipse cx="700" cy="185" rx="80" ry="20" fill="#C9A227" opacity="0.5"/>
+    
+    <!-- Pot -->
+    <path d="M660 158 L664 188 L736 188 L740 158 Z" fill="#8B6914" stroke="#5C4033" stroke-width="2"/>
+    <ellipse cx="700" cy="158" rx="42" ry="10" fill="#A67C00"/>
+    <ellipse cx="700" cy="160" rx="38" ry="8" fill="#3D2B22"/>
+    
+    <!-- Hollow trunk (shows emptiness) -->
+    <path d="M700 160 Q695 120 700 90 Q705 60 700 30" stroke="#8B6914" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="700" cy="120" rx="4" ry="20" fill="#3D2B22" opacity="0.6"/>
+    
+    <!-- No roots - only thin wisps -->
+    <path d="M700 160 Q690 170 680 175" stroke="#5C4033" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+    <path d="M700 160 Q710 170 720 175" stroke="#5C4033" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+    
+    <!-- Thin branches with no substance -->
+    <path d="M700 70 Q665 55 640 40" stroke="#B8860B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M700 70 Q735 55 760 40" stroke="#B8860B" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M700 50 Q680 30 670 15" stroke="#B8860B" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M700 50 Q720 30 730 15" stroke="#B8860B" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Glowing lantern-like canopy (hollow center visible) -->
+    <circle cx="640" cy="32" r="18" fill="#F0D547"/>
+    <circle cx="760" cy="32" r="18" fill="#F0D547"/>
+    <circle cx="670" cy="10" r="15" fill="#F0D547"/>
+    <circle cx="730" cy="10" r="15" fill="#F0D547"/>
+    <circle cx="700" cy="0" r="20" fill="#FFE566"/>
+    <circle cx="700" cy="25" r="14" fill="#E5C44A"/>
+    <circle cx="665" cy="22" r="10" fill="#E5C44A"/>
+    <circle cx="735" cy="22" r="10" fill="#E5C44A"/>
+    
+    <!-- Strong glow effect - the whole tree glows like a lantern -->
+    <ellipse cx="700" cy="35" rx="70" ry="85" fill="url(#glowYellow4)" opacity="0.4"/>
+    <ellipse cx="700" cy="35" rx="40" ry="50" fill="url(#glowYellow4)" opacity="0.3"/>
+  </g>
+  
+  <!-- Gradients for glow effects -->
+  <defs>
+    <radialGradient id="glowYellow1">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="100%" stop-color="#FFE566" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowYellow2">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="100%" stop-color="#FFE566" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowYellow3">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="100%" stop-color="#FFE566" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowYellow4">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="100%" stop-color="#FFE566" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

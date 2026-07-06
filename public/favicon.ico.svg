@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="url(#faviconGrad)"/>
+  <path d="M15 24 L15 16 Q16 14 16 14 Q16 14 17 16 L17 24 Z" fill="#FAF6F0"/>
+  <circle cx="12" cy="12" r="4" fill="#4A7C23"/>
+  <circle cx="20" cy="12" r="4" fill="#4A7C23"/>
+  <circle cx="16" cy="8" r="5" fill="#4A7C23"/>
+  <circle cx="16" cy="7" r="2" fill="#C9A227"/>
+  <defs>
+    <linearGradient id="faviconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5C4033"/>
+      <stop offset="100%" stop-color="#3D2B22"/>
+    </linearGradient>
+  </defs>
+</svg>
