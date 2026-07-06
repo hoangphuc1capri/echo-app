@@ -6,7 +6,7 @@ type BadgeVariant = 'seed' | 'walker' | 'supported' | 'borrowed' | 'prisoner' | 
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   dot?: boolean;
 }
 
@@ -58,7 +58,7 @@ export default function Badge({
     <span
       className={`
         inline-flex items-center gap-1.5
-        ${size === 'sm' ? 'px-2.5 py-1 text-[11px]' : 'px-3 py-1.5 text-xs'}
+        ${size === 'sm' ? 'px-2.5 py-1 text-[11px]' : size === 'lg' ? 'px-4 py-2 text-sm' : 'px-3 py-1.5 text-xs'}
         rounded-full font-ui font-medium
         ${variantStyles[variant]}
         ${className}
