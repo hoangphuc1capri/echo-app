@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 import { signToken } from '@/lib/auth';
+import { validateAdminCredentials } from '@/lib/admin-auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +18,30 @@ export async function POST(request: NextRequest) {
 
     await connectDB();
 
-    // Find user
+    // Check if this is an admin login
+    if (validateAdminCredentials(email, password)) {
+      const token = await signToken({
+        userId: 'admin',
+        email: email,
+        role: 'admin',
+      } as Parameters<typeof signToken>[0]);
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          user: {
+            _id: 'admin',
+            email,
+            name: 'Quản trị viên',
+            role: 'admin',
+          },
+          token,
+          isAdmin: true,
+        },
+      });
+    }
+
+    // Regular user login
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return NextResponse.json(
@@ -26,7 +50,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return NextResponse.json(
@@ -35,7 +58,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate token
     const token = await signToken({
       userId: user._id.toString(),
       email: user.email,
@@ -50,6 +72,7 @@ export async function POST(request: NextRequest) {
           name: user.name,
         },
         token,
+        isAdmin: false,
       },
     });
   } catch (error) {

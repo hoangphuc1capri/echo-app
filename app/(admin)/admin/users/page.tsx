@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { Search, ChevronLeft, ChevronRight, Trash2, RefreshCw, Loader2 } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Trash2, RefreshCw, Loader2, Download } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import * as XLSX from 'xlsx';
 
 interface User {
   _id: string;
@@ -21,6 +22,7 @@ export default function AdminUsersPage() {
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const limit = 15;
 
@@ -58,7 +60,7 @@ export default function AdminUsersPage() {
   }, [search]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Xóa người dùng này? Hành động không thể hoàn tác.')) return;
+    if (!confirm('Xóa người dùng này? Tất cả kết quả quiz của họ cũng sẽ bị xóa.')) return;
     setDeleting(id);
     try {
       const res = await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' });
@@ -76,6 +78,40 @@ export default function AdminUsersPage() {
     }
   };
 
+  const exportAll = async () => {
+    setExporting(true);
+    try {
+      const params = new URLSearchParams({ page: '1', limit: '10000', ...(search ? { search } : {}) });
+      const res = await fetch(`/api/admin/users?${params}`);
+      const data = await res.json();
+      if (!data.success) throw new Error();
+
+      const rows = data.data.users.map((u: User, i: number) => ({
+        STT: i + 1,
+        'Họ tên': u.name || '',
+        Email: u.email,
+        'Ngày đăng ký': new Date(u.createdAt).toLocaleString('vi-VN'),
+        'Số quiz': '—',
+      }));
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(rows);
+      ws['!cols'] = [
+        { wch: 6 },
+        { wch: 25 },
+        { wch: 35 },
+        { wch: 25 },
+        { wch: 10 },
+      ];
+      XLSX.utils.book_append_sheet(wb, ws, 'Người dùng');
+      XLSX.writeFile(wb, `echo-users-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    } catch {
+      alert('Xuất thất bại');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString('vi-VN', {
       day: '2-digit',
@@ -86,22 +122,21 @@ export default function AdminUsersPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-xl font-display font-bold text-[#2C1810]">
-            Người dùng
-          </h1>
-          <p className="text-sm text-[#6B5B4F] mt-0.5">
-            {total} người dùng đã đăng ký
-          </p>
+          <h1 className="text-xl font-display font-bold text-[#2C1810]">Người dùng</h1>
+          <p className="text-sm text-[#6B5B4F] mt-0.5">{total} tài khoản đã đăng ký</p>
         </div>
-        <button
-          onClick={fetchUsers}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-[#6B5B4F] hover:bg-[#F5EDE0] transition-colors"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Làm mới
-        </button>
+        <div className="flex items-center gap-2">
+          <Button variant="secondary" size="sm" onClick={fetchUsers}>
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Làm mới
+          </Button>
+          <Button size="sm" onClick={exportAll} disabled={!total || exporting}>
+            <Download className="w-4 h-4" />
+            {exporting ? 'Đang xuất...' : 'Xuất Excel'}
+          </Button>
+        </div>
       </div>
 
       {/* Search */}
@@ -138,48 +173,38 @@ export default function AdminUsersPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#EDE4D3]">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Email
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Tên
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Ngày đăng ký
-                </th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Thao tác
-                </th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide w-10">STT</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Email</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Tên</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Ngày đăng ký</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-12 text-center">
+                  <td colSpan={5} className="px-4 py-12 text-center">
                     <Loader2 className="w-5 h-5 animate-spin mx-auto text-[#6B5B4F]" />
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-12 text-center text-sm text-[#6B5B4F]">
+                  <td colSpan={5} className="px-4 py-12 text-center text-sm text-[#6B5B4F]">
                     Không có người dùng nào
                   </td>
                 </tr>
               ) : (
-                users.map((user) => (
+                users.map((user, idx) => (
                   <tr
                     key={user._id}
                     className="border-b border-[#EDE4D3] last:border-0 hover:bg-[#FAF6F0] transition-colors"
                   >
-                    <td className="px-4 py-3 text-sm text-[#2C1810]">
-                      {user.email}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-[#6B5B4F]">{(page - 1) * limit + idx + 1}</td>
+                    <td className="px-4 py-3 text-sm text-[#2C1810]">{user.email}</td>
                     <td className="px-4 py-3 text-sm text-[#2C1810]">
                       {user.name || <span className="text-[#6B5B4F] italic">Chưa có</span>}
                     </td>
-                    <td className="px-4 py-3 text-sm text-[#6B5B4F]">
-                      {formatDate(user.createdAt)}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-[#6B5B4F]">{formatDate(user.createdAt)}</td>
                     <td className="px-4 py-3 text-right">
                       <button
                         onClick={() => handleDelete(user._id)}

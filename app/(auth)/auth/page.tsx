@@ -45,8 +45,20 @@ export default function AuthPage() {
 
       localStorage.setItem('auth-token', data.data.token);
       localStorage.setItem('user', JSON.stringify(data.data.user));
+      localStorage.setItem('is-admin', data.data.isAdmin ? '1' : '0');
 
-      router.push('/quiz');
+      if (data.data.isAdmin) {
+        // Also set the admin cookie so proxy.ts can read it
+        await fetch('/api/admin/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+          credentials: 'include',
+        });
+        router.push('/admin');
+      } else {
+        router.push('/quiz');
+      }
     } catch {
       setError('Đã xảy ra lỗi kết nối');
       setIsLoading(false);

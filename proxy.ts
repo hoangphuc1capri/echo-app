@@ -5,11 +5,8 @@ import { verifyAdminToken } from '@/lib/admin-auth';
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Admin auth routes are always accessible (login page, login API)
-  if (
-    pathname.startsWith('/admin/login') ||
-    pathname.startsWith('/api/admin/login')
-  ) {
+  // Admin auth routes are always accessible (login API)
+  if (pathname.startsWith('/api/auth/login')) {
     return NextResponse.next();
   }
 

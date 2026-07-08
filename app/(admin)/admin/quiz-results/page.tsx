@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { Search, ChevronLeft, ChevronRight, Trash2, RefreshCw, Loader2 } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Trash2, RefreshCw, Loader2, Download } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import * as XLSX from 'xlsx';
 
 const categoryNames: Record<string, string> = {
   seed_keeper: 'Người giữ lửa',
@@ -39,8 +40,10 @@ export default function AdminQuizResultsPage() {
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const limit = 15;
+  const categories = ['seed_keeper', 'walker', 'supported', 'hidden_dependent', 'ai_living'];
 
   const fetchResults = useCallback(async () => {
     setLoading(true);
@@ -95,6 +98,49 @@ export default function AdminQuizResultsPage() {
     }
   };
 
+  const exportAll = async () => {
+    setExporting(true);
+    try {
+      const params = new URLSearchParams({
+        page: '1',
+        limit: '10000',
+        ...(search ? { search } : {}),
+        ...(category ? { category } : {}),
+      });
+      const res = await fetch(`/api/admin/quiz-results?${params}`);
+      const data = await res.json();
+      if (!data.success) throw new Error();
+
+      const rows = data.data.results.map((r: QuizResult, i: number) => ({
+        STT: i + 1,
+        'Họ tên': r.userId?.name || '',
+        Email: r.userId?.email || '',
+        'Nhóm': categoryNames[r.category] || r.category,
+        'Điểm': r.score,
+        'Phần trăm (%)': r.percentage,
+        'Ngày làm': new Date(r.createdAt).toLocaleString('vi-VN'),
+      }));
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(rows);
+      ws['!cols'] = [
+        { wch: 6 },
+        { wch: 25 },
+        { wch: 35 },
+        { wch: 22 },
+        { wch: 8 },
+        { wch: 15 },
+        { wch: 22 },
+      ];
+      XLSX.utils.book_append_sheet(wb, ws, 'Kết quả Quiz');
+      XLSX.writeFile(wb, `echo-quiz-results-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    } catch {
+      alert('Xuất thất bại');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString('vi-VN', {
       day: '2-digit',
@@ -104,27 +150,31 @@ export default function AdminQuizResultsPage() {
       minute: '2-digit',
     });
 
-  const categories = ['seed_keeper', 'walker', 'supported', 'hidden_dependent', 'ai_living'];
-
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-xl font-display font-bold text-[#2C1810]">
-            Kết quả Quiz
-          </h1>
-          <p className="text-sm text-[#6B5B4F] mt-0.5">
-            {total} kết quả
-          </p>
+          <h1 className="text-xl font-display font-bold text-[#2C1810]">Kết quả Quiz</h1>
+          <p className="text-sm text-[#6B5B4F] mt-0.5">{total} kết quả</p>
         </div>
-        <button
-          onClick={fetchResults}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-[#6B5B4F] hover:bg-[#F5EDE0] transition-colors"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Làm mới
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchResults}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-[#6B5B4F] hover:bg-[#F5EDE0] transition-colors"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Làm mới
+          </button>
+          <button
+            onClick={exportAll}
+            disabled={!total || exporting}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm bg-[#059669] text-white hover:bg-[#047857] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            {exporting ? 'Đang xuất...' : 'Xuất Excel'}
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -167,52 +217,40 @@ export default function AdminQuizResultsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#EDE4D3]">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Người dùng
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Nhóm
-                </th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Điểm
-                </th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  %
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Ngày
-                </th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">
-                  Thao tác
-                </th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide w-10">STT</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Người dùng</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Nhóm</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Điểm</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">%</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Ngày</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B5B4F] uppercase tracking-wide">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center">
+                  <td colSpan={7} className="px-4 py-12 text-center">
                     <Loader2 className="w-5 h-5 animate-spin mx-auto text-[#6B5B4F]" />
                   </td>
                 </tr>
               ) : results.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center text-sm text-[#6B5B4F]">
+                  <td colSpan={7} className="px-4 py-12 text-center text-sm text-[#6B5B4F]">
                     Không có kết quả nào
                   </td>
                 </tr>
               ) : (
-                results.map((result) => (
+                results.map((result, idx) => (
                   <tr
                     key={result._id}
                     className="border-b border-[#EDE4D3] last:border-0 hover:bg-[#FAF6F0] transition-colors"
                   >
+                    <td className="px-4 py-3 text-sm text-[#6B5B4F]">{(page - 1) * limit + idx + 1}</td>
                     <td className="px-4 py-3">
                       <p className="text-sm font-medium text-[#2C1810]">
                         {result.userId?.name || result.userId?.email?.split('@')[0] || 'Người dùng'}
                       </p>
-                      <p className="text-xs text-[#6B5B4F]">
-                        {result.userId?.email || '—'}
-                      </p>
+                      <p className="text-xs text-[#6B5B4F]">{result.userId?.email || '—'}</p>
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -233,9 +271,7 @@ export default function AdminQuizResultsPage() {
                         {result.percentage}%
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-[#6B5B4F]">
-                      {formatDate(result.createdAt)}
-                    </td>
+                    <td className="px-4 py-3 text-xs text-[#6B5B4F]">{formatDate(result.createdAt)}</td>
                     <td className="px-4 py-3 text-right">
                       <button
                         onClick={() => handleDelete(result._id)}

@@ -37,8 +37,9 @@ export default function AdminLayout({
 
   const handleLogout = async () => {
     localStorage.removeItem('admin-email');
-    await fetch('/api/admin/logout', { method: 'POST' }).catch(() => {});
-    router.push('/admin/login');
+    localStorage.removeItem('is-admin');
+    await fetch('/api/auth/login', { method: 'DELETE' }).catch(() => {});
+    router.push('/auth');
   };
 
   const SidebarContent = ({ onClose }: { onClose?: () => void }) => (
