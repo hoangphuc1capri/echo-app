@@ -10,7 +10,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình thử nhớ xem còn nhớ được những gì.",
       D: "Cứ vào làm trước, thiếu đâu bổ sung sau."
     },
-    scores: { A: 1, B: 3, C: 4, D: 2 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Muốn nghe các bạn trao đổi trước.",
       D: "Thử nói suy nghĩ của mình dù chưa chắc đúng."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Đọc lại xem có chỗ nào chưa hợp lý.",
       D: "Đọc thành tiếng để xem ý của mình có mạch lạc không."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình muốn sửa lại theo cách hiểu của mình.",
       D: "Mình muốn tự làm hơn, dù lâu hơn."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Ghi lại điều mình đã hiểu trước.",
       D: "Kiên nhẫn suy nghĩ thêm một lúc nữa."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 6,
@@ -65,7 +65,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Đọc lại bài để biết mình làm tốt ở đâu.",
       D: "Tò mò xem nếu làm lại thì mình có thể viết hay hơn không."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 7,
@@ -76,7 +76,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Thôi thì thử làm đến đâu hay đến đó.",
       D: "Đây cũng là dịp để xem mình thực sự hiểu được bao nhiêu."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 8,
@@ -87,7 +87,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình thử nghĩ vài hướng trước.",
       D: "Đây là cơ hội để viết theo góc nhìn của mình."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 9,
@@ -98,7 +98,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Tự chỉnh trước rồi mới so sánh.",
       D: "Giữ lại cả bản cũ và bản mới để xem mình tiến bộ ra sao."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 10,
@@ -109,7 +109,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Nêu suy nghĩ của mình trước rồi cùng kiểm chứng.",
       D: "Thích nghe nhiều ý kiến khác nhau trước khi kết luận."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 11,
@@ -120,7 +120,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình hiểu rõ hơn một điều trước đây chưa biết.",
       D: "Mình đã tự nghĩ ra một ý tưởng mà trước đó chưa từng có."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 12,
@@ -131,7 +131,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Ghi lại những ý mình thấy hay.",
       D: "Đóng AI lại và thử diễn đạt theo cách của mình."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 13,
@@ -142,7 +142,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "So sánh các lập luận của hai bên.",
       D: "Tự cân nhắc rồi mới đưa ra kết luận."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 14,
@@ -153,7 +153,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Vất vả nhưng vẫn làm được.",
       D: "Mình suy nghĩ nhiều hơn trước."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 15,
@@ -164,7 +164,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "AI rất hữu ích nhưng không thể thay việc học.",
       D: "Điều quan trọng nhất vẫn là khả năng của chính mình."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 16,
@@ -175,7 +175,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình đã hiểu cách giải quyết vấn đề.",
       D: "Lần sau gặp dạng này mình có thể tự làm."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 17,
@@ -186,7 +186,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Đối chiếu với tài liệu đáng tin cậy.",
       D: "Nhận ra rằng AI cũng cần được kiểm chứng."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 18,
@@ -197,7 +197,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Lắng nghe nhiều góc nhìn rồi tự đánh giá.",
       D: "Thích tự xây dựng quan điểm của mình trước khi xem AI."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 19,
@@ -208,7 +208,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Mình đã tiến bộ ở điểm nào.",
       D: "Cách mình suy nghĩ đã thay đổi ra sao."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   },
   {
     id: 20,
@@ -219,7 +219,7 @@ export const quizQuestions: QuizQuestion[] = [
       C: "Vẫn học được, chỉ chậm hơn một chút.",
       D: "Không quá lo vì mình luôn cố gắng giữ khả năng tự học."
     },
-    scores: { A: 1, B: 2, C: 3, D: 4 }
+    scores: { A: 4, B: 3, C: 2, D: 1 }
   }
 ];
 
@@ -230,12 +230,114 @@ export function calculateScore(answers: number[]): { score: number; percentage: 
 }
 
 export function getCategory(percentage: number): CategoryInfo {
-  if (percentage <= 25) {
+  // % cao = phụ thuộc AI cao (A=4 là phụ thuộc nhất)
+  if (percentage <= 20) {
     return {
       id: 'seed_keeper',
       name: 'The Seed Keeper',
       nameVi: 'Người giữ lửa tư duy',
-      description: 'Bạn phụ thuộc hoàn toàn vào AI. Hãy từ từ tìm lại bản thân.',
+      subtitle: 'Người tư duy độc lập hoàn toàn',
+      description: 'Bạn có khả năng tư duy độc lập cao. Hãy tiếp tục phát huy!',
+      letter: `Gửi bạn,
+
+Bạn là người có khả năng tư duy độc lập rất tốt! Bạn không dựa quá nhiều vào AI và luôn cố gắng tự mình giải quyết vấn đề.
+
+Đây là một nền tảng tuyệt vời. Nhưng hãy nhớ rằng, AI có thể là một người bạn đồng hành hữu ích nếu bạn biết cách sử dụng nó một cách thông minh.
+
+**Hay thử:**
+- Dùng AI như một công cụ kiểm tra và bổ sung
+- Học hỏi từ những câu trả lời hay của AI
+- Chia sẻ kiến thức của bạn với những người khác
+
+Bạn đã có nền tảng vững chắc. Giờ hãy mở rộng thêm với sự hỗ trợ của AI!`,
+      tips: [
+        'Dùng AI như công cụ kiểm tra, không phải thay thế',
+        'Học hỏi từ những câu trả lời hay của AI',
+        'Chia sẻ kiến thức với người khác'
+      ]
+    };
+  } else if (percentage <= 40) {
+    return {
+      id: 'walker',
+      name: 'The Balanced Walker',
+      nameVi: 'Người cân băng',
+      subtitle: 'Người biết cân bằng giữa tự lập và AI',
+      description: 'Bạn có sự cân bằng giữa tự lập và sử dụng AI. Tiếp tục duy trì nhé!',
+      letter: `Gửi bạn,
+
+Bạn đang ở một vị trí rất tốt - biết cách cân bằng giữa việc tự lập và tiếp nhận hỗ trợ từ AI.
+
+Điều quan trọng là bạn không để "thói quen" trở thành "sự phụ thuộc". Hãy tiếp tục duy trì sự cân bằng này!
+
+**Hay thử:**
+- Trước khi hỏi AI, tự suy nghĩ ít nhất 5 phút
+- Sau mỗi lần dùng AI, tự hỏi: "Nếu không có nó, mình làm sao?"
+- Ghi lại những gì bạn tự làm được mỗi ngày
+
+Bạn đang đi trên con đường tốt. Hãy giữ thăng bằng!`,
+      tips: [
+        'Áp dụng quy tắc Delay 5 phút trước khi hỏi AI',
+        'Sau mỗi lần dùng AI, tự hỏi "Nếu không có nó?"',
+        'Ghi nhật ký những gì bạn tự làm được'
+      ]
+    };
+  } else if (percentage <= 60) {
+    return {
+      id: 'supported',
+      name: 'The Supported Learner',
+      nameVi: 'Người thích hỗ trợ',
+      subtitle: 'Người thích được hỗ trợ từ AI',
+      description: 'Bạn có xu hướng cần sự hỗ trợ từ AI. Hãy thử tự lập hơn một chút nhé!',
+      letter: `Gửi bạn,
+
+Bạn có xu hướng dựa vào AI khá nhiều trong học tập. Điều này hoàn toàn bình thường - AI thực sự rất tiện lợi!
+
+Nhưng hãy thử dành một chút thời gian để tự suy nghĩ trước khi hỏi AI. Mỗi lần bạn tự giải được một bài, đó không chỉ là điểm số - đó là một mảnh ghép trong bức tranh năng lực của chính bạn.
+
+**Hay thử:**
+- Dành 10 phút tự suy nghĩ trước khi hỏi AI
+- Viết ý tưởng của mình ra trước khi xin gợi ý
+- Thử làm một bài mà không cần AI
+
+Bạn không cần nhanh hơn. Bạn chỉ cần thật sự hiểu.`,
+      tips: [
+        'Bắt đầu với 10 phút tự suy nghĩ mỗi ngày',
+        'Dùng AI như người phản biện, không phải người làm hộ',
+        'Ghi lại những gì bạn tự làm được'
+      ]
+    };
+  } else if (percentage <= 80) {
+    return {
+      id: 'hidden_dependent',
+      name: 'The Hidden Dependent',
+      nameVi: 'Người phụ thuộc tiềm ẩn',
+      subtitle: 'Người phụ thuộc AI mà chưa nhận ra',
+      description: 'Bạn phụ thuộc khá nhiều vào AI mà có thể chưa nhận ra. Hãy từ từ thay đổi nhé!',
+      letter: `Gửi bạn,
+
+Có lẽ bạn đã quen với việc để AI lo phần lớn công việc học tập. "Cứ hỏi AI là xong" - đó là cách bạn đang nghĩ.
+
+Nhưng bạn có biết rằng, mỗi lần bạn tự giải được một bài, bạn đang xây dựng năng lực thật sự của bản thân không?
+
+**Hay thử:**
+- Thử không dùng AI trong 30 phút đầu tiên của mỗi buổi học
+- Trước khi hỏi AI, viết ra suy nghĩ của mình trước
+- Sau khi nhận câu trả lời từ AI, thử tự diễn đạt lại
+
+Bạn hoàn toàn có thể thay đổi. Hãy bắt đầu từ những bước nhỏ!`,
+      tips: [
+        'Thử không dùng AI trong 30 phút đầu tiên',
+        'Viết suy nghĩ của mình trước khi hỏi AI',
+        'Tự diễn đạt lại câu trả lời của AI'
+      ]
+    };
+  } else {
+    return {
+      id: 'ai_living',
+      name: 'The AI Companion',
+      nameVi: 'Người sống cùng AI',
+      subtitle: 'Người phụ thuộc hoàn toàn vào AI',
+      description: 'Bạn phụ thuộc rất nhiều vào AI. Hãy tìm lại bản thân nhé!',
       letter: `Gửi bạn,
 
 Có lẽ bạn đã quen với việc để AI lo phần lớn công việc học tập. "Cứ hỏi AI là xong" - đó là cách bạn đang nghĩ.
@@ -254,102 +356,6 @@ Bạn không cần nhanh hơn. Bạn chỉ cần thật sự hiểu.`,
         'Bắt đầu với 10 phút tự suy nghĩ mỗi ngày',
         'Dùng AI như người phản biện, không phải người làm hộ',
         'Ghi lại những gì bạn tự làm được'
-      ]
-    };
-  } else if (percentage <= 50) {
-    return {
-      id: 'walker',
-      name: 'The Walker',
-      nameVi: 'Người đi trên cầu',
-      description: 'Bạn có xu hướng dựa vào AI nhiều hơn tự lực. Cố gắng thêm một chút nhé!',
-      letter: `Gửi bạn,
-
-Bạn không hoàn toàn phụ thuộc vào AI, nhưng đôi khi bạn vẫn cảm thấy thoải mái khi có nó bên cạnh. Đó là điều hoàn toàn bình thường.
-
-Trên thực tế, bạn đang ở một vị trí rất thú vị - bạn biết cách cân bằng giữa việc tự lập và việc tiếp nhận hỗ trợ. Điều quan trọng là bạn không để "thói quen" trở thành "sự phụ thuộc".
-
-**Hay thử:**
-- Trước khi hỏi AI, tự suy nghĩ ít nhất 5 phút
-- Áp dụng quy tắc "một câu hỏi" - chỉ hỏi AI sau khi đã có ít nhất 1 hướng giải
-- Sau mỗi lần dùng AI, tự hỏi: "Nếu không có nó, mình làm sao?"
-
-Bạn đang đi trên cầu. Hãy giữ thăng bằng.`,
-      tips: [
-        'Áp dụng quy tắc Delay 5 phút trước khi hỏi AI',
-        'Chỉ hỏi AI sau khi đã có ít nhất 1 hướng giải',
-        'Reflection loop: Sau mỗi lần dùng AI, tự hỏi "Nếu không có nó?"'
-      ]
-    };
-  } else if (percentage <= 75) {
-    return {
-      id: 'supported',
-      name: 'The Supported',
-      nameVi: 'Người thích hỗ trợ',
-      description: 'Bạn có sự cân bằng giữa tự lập và sử dụng AI. Tiếp tục phát huy!',
-      letter: `Gửi bạn,
-
-Bạn đang ở giữa con đường - không quá phụ thuộc vào AI, cũng không hoàn toàn tự lập. Đó là một vị trí rất tốt!
-
-AI thực sự hữu ích - nó giúp bạn tiết kiệm thời gian, kiểm tra sai sót, và đôi khi gợi mở những ý tưởng mới. Nhưng điều bạn cần nhớ là: bạn mới là người quyết định cuối cùng.
-
-**Hay thử:**
-- Trước khi xem gợi ý AI, viết ra suy nghĩ của mình
-- So sánh câu trả lời của bạn với AI - bạn giỏi hơn bạn nghĩ
-- Tự đánh giá bài làm trước khi nhờ AI sửa
-
-Bạn đang làm tốt. Hãy tiếp tục như vậy!`,
-      tips: [
-        'Viết ý tưởng của mình trước khi xem AI gợi ý',
-        'Tự đánh giá bài làm trước khi nhờ AI sửa',
-        'So sánh câu trả lời của mình với AI - bạn giỏi hơn bạn nghĩ'
-      ]
-    };
-  } else if (percentage <= 90) {
-    return {
-      id: 'borrowed_mind',
-      name: 'The Borrowed Mind',
-      nameVi: 'Người mượn trí',
-      description: 'Bạn có xu hướng tự lập hơn, nhưng vẫn cần AI như một người bạn đồng hành.',
-      letter: `Gửi bạn,
-
-Bạn đang ở một nơi rất tốt! Bạn có khả năng tự lập cao, nhưng vẫn biết cách sử dụng AI như một công cụ hỗ trợ thông minh.
-
-Điều quan trọng là bạn không để AI thay thế hoàn toàn suy nghĩ của mình. Mỗi khi bạn tự suy nghĩ trước khi xem AI, bạn đang xây dựng năng lực thật sự của bản thân.
-
-**Hay thử:**
-- Tiếp tục duy trì thói quen tự suy nghĩ trước
-- Dùng AI để kiểm tra và bổ sung, không phải thay thế
-- Ghi lại những gì bạn tự làm được mỗi ngày
-
-Bạn đang làm rất tốt. Hãy tiếp tục phát huy!`,
-      tips: [
-        'Duy trì thói quen tự suy nghĩ trước khi hỏi AI',
-        'Dùng AI như công cụ kiểm tra, không phải thay thế',
-        'Ghi nhật ký những gì bạn tự làm được'
-      ]
-    };
-  } else {
-    return {
-      id: 'echo_prisoner',
-      name: 'The Echo Prisoner',
-      nameVi: 'Người tù của tiếng vọng',
-      description: 'Bạn hoàn toàn tự lập! Hãy để AI trở thành người bạn đồng hành, không phải kẻ thù.',
-      letter: `Gửi bạn,
-
-Bạn là người hoàn toàn tự lập! Điều này thật tuyệt vời - bạn có năng lực tư duy và giải quyết vấn đề rất tốt.
-
-Nhưng hãy nhớ rằng, AI không phải là kẻ thù. Nó có thể là một người bạn đồng hành tuyệt vời nếu bạn biết cách sử dụng nó đúng cách.
-
-**Hay thử:**
-- Thử dùng AI như một người thầy gợi ý, không phải đối thủ
-- Học hỏi từ những câu trả lời hay của AI
-- Chia sẻ kiến thức của bạn với những người khác
-
-Bạn đã có nền tảng vững chắc. Giờ hãy mở rộng thêm với sự hỗ trợ của AI!`,
-      tips: [
-        'Thử dùng AI như người thầy gợi ý',
-        'Học hỏi từ những câu trả lời hay của AI',
-        'Chia sẻ kiến thức với người khác'
       ]
     };
   }

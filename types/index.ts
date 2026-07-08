@@ -38,14 +38,16 @@ export type QuizCategory =
   | 'seed_keeper' 
   | 'walker' 
   | 'supported' 
-  | 'borrowed_mind' 
-  | 'echo_prisoner';
+  | 'hidden_dependent' 
+  | 'ai_living';
 
 export interface CategoryInfo {
-  id: QuizCategory;
+  id: string;
   name: string;
   nameVi: string;
+  subtitle: string;
   description: string;
+  color?: string;
   letter: string;
   tips: string[];
 }

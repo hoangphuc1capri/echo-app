@@ -23,11 +23,11 @@ const variantStyles: Record<BadgeVariant, string> = {
 };
 
 const variantLabels: Record<BadgeVariant, string> = {
-  seed: 'Người giữ lửa',
-  walker: 'Người đi trên cầu',
+  seed: 'Người giữ lửa tư duy',
+  walker: 'Người cân băng',
   supported: 'Người thích hỗ trợ',
-  borrowed: 'Người mượn trí',
-  prisoner: 'Người tù của tiếng vọng',
+  borrowed: 'Người phụ thuộc tiềm ẩn',
+  prisoner: 'Người sống cùng AI',
   success: 'Thành công',
   warning: 'Cảnh báo',
   error: 'Lỗi',
