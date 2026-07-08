@@ -3,9 +3,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Mic, MicOff, Send, X, Clock, Shield, User, Heart, Sparkles, ChevronRight } from 'lucide-react';
+import { MessageCircle, Mic, Send, X, Clock, Shield, User, Heart, Sparkles, ChevronRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import VoiceCallRoom from '@/components/voice/VoiceCallRoom';
 
 interface Message {
   id: string;
@@ -13,6 +14,8 @@ interface Message {
   content: string;
   timestamp: Date;
 }
+
+const STUN_SERVER = process.env.NEXT_PUBLIC_STUN_SERVER || 'stun:stun.l.google.com:19302';
 
 export default function AnonymousRoomPage() {
   const router = useRouter();
@@ -110,6 +113,12 @@ export default function AnonymousRoomPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const handleVoiceCallEnd = () => {
+    setIsConnected(false);
+    setIsWaiting(false);
+    setTimeLeft(300);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Breadcrumb */}
@@ -163,210 +172,205 @@ export default function AnonymousRoomPage() {
         </Card>
       </motion.div>
 
-      {/* Main Content */}
-      {!isConnected && !isWaiting ? (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="max-w-lg mx-auto"
-        >
-          <Card className="overflow-hidden">
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--echo-cream)] to-[var(--echo-parchment)] flex items-center justify-center mx-auto mb-4">
-                <User className="w-10 h-10 text-[var(--echo-wood)]" />
-              </div>
-              <h2 className="text-xl font-display font-bold text-[var(--echo-ink)] mb-2">
-                Bắt đầu cuộc trò chuyện
-              </h2>
-              <p className="text-sm text-[var(--echo-ink-muted)]">
-                Kết nối với người lạ ẩn danh
-              </p>
-            </div>
-
-            {/* Mode Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-[var(--echo-ink-muted)] mb-3 text-center">
-                Chọn hình thức
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => setMode('text')}
-                  className={`
-                    p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2
-                    ${mode === 'text'
-                      ? 'border-[var(--echo-wood)] bg-[var(--echo-wood)]/5'
-                      : 'border-[var(--echo-parchment)] hover:border-[var(--echo-wood)]/50'}
-                  `}
-                >
-                  <MessageCircle className={`w-8 h-8 ${mode === 'text' ? 'text-[var(--echo-wood)]' : 'text-[var(--echo-ink-muted)]'}`} />
-                  <span className={`text-sm font-medium ${mode === 'text' ? 'text-[var(--echo-wood)]' : 'text-[var(--echo-ink)]'}`}>
-                    Nhắn tin
-                  </span>
-                </button>
-                <button
-                  onClick={() => setMode('voice')}
-                  className={`
-                    p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2
-                    ${mode === 'voice'
-                      ? 'border-[var(--echo-wood)] bg-[var(--echo-wood)]/5'
-                      : 'border-[var(--echo-parchment)] hover:border-[var(--echo-wood)]/50'}
-                  `}
-                >
-                  <Mic className={`w-8 h-8 ${mode === 'voice' ? 'text-[var(--echo-wood)]' : 'text-[var(--echo-ink-muted)]'}`} />
-                  <span className={`text-sm font-medium ${mode === 'voice' ? 'text-[var(--echo-wood)]' : 'text-[var(--echo-ink)]'}`}>
-                    Giọng nói
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Guidelines */}
-            <div className="mb-6 p-4 bg-[var(--echo-cream)]/50 rounded-xl">
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-4 h-4 text-[var(--echo-wood)]" />
-                <span className="text-sm font-medium text-[var(--echo-ink)]">Lưu ý</span>
-              </div>
-              <ul className="text-sm text-[var(--echo-ink-muted)] space-y-2">
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--echo-wood)] mt-0.5">•</span>
-                  Tự động kết thúc sau 5 phút
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--echo-wood)] mt-0.5">•</span>
-                  Không lưu lại lịch sử
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--echo-wood)] mt-0.5">•</span>
-                  Tôn trọng và lắng nghe
-                </li>
-              </ul>
-            </div>
-
-            <Button onClick={handleStartSession} fullWidth>
-              <Sparkles className="w-5 h-5" />
-              Tìm người trò chuyện
-            </Button>
-          </Card>
-        </motion.div>
-      ) : isWaiting ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="max-w-md mx-auto"
-        >
-          <Card className="text-center">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className="w-20 h-20 rounded-full border-4 border-[var(--echo-wood)] border-t-transparent mx-auto mb-6"
-            />
-            <h2 className="text-xl font-display font-bold text-[var(--echo-ink)] mb-2">
-              Đang tìm người phù hợp...
-            </h2>
-            <p className="text-[var(--echo-ink-muted)] mb-6">
-              Vui lòng chờ trong giây lát
-            </p>
-            <Button variant="ghost" onClick={() => setIsWaiting(false)}>
-              Hủy bỏ
-            </Button>
-          </Card>
-        </motion.div>
+      {/* Main Content - Voice Mode */}
+      {mode === 'voice' ? (
+        <VoiceCallRoom
+          maxDuration={300}
+          onEnd={handleVoiceCallEnd}
+        />
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="max-w-2xl mx-auto"
-        >
-          <Card className="overflow-hidden p-0">
-            {/* Chat Header */}
-            <div className="flex items-center justify-between p-4 border-b border-[var(--echo-parchment)]">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--echo-wood)] to-[var(--echo-wood-dark)] flex items-center justify-center">
-                  <User className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-medium text-[var(--echo-ink)]">Người lạ ẩn danh</div>
-                  <div className="text-xs text-emerald-500 flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Đang kết nối
+        /* Main Content - Text Mode */
+        <>
+          {!isConnected && !isWaiting ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="max-w-lg mx-auto"
+            >
+              <Card className="overflow-hidden">
+                <div className="text-center mb-6">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--echo-cream)] to-[var(--echo-parchment)] flex items-center justify-center mx-auto mb-4">
+                    <User className="w-10 h-10 text-[var(--echo-wood)]" />
                   </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-[var(--echo-cream)] px-3 py-1.5 rounded-lg">
-                  <Clock className="w-4 h-4 text-[var(--echo-ink-muted)]" />
-                  <span className="font-mono text-sm font-medium">{formatTime(timeLeft)}</span>
-                </div>
-                <Button variant="ghost" size="sm" onClick={handleEndSession} className="text-red-500 hover:bg-red-50">
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Messages */}
-            <div className="h-[400px] overflow-y-auto p-4 space-y-4">
-              <AnimatePresence>
-                {messages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`
-                        max-w-[85%] px-5 py-3 rounded-2xl
-                        ${msg.sender === 'me'
-                          ? 'bg-gradient-to-br from-[var(--echo-wood)] to-[var(--echo-wood-dark)] text-white rounded-br-sm'
-                          : 'bg-white text-[var(--echo-ink)] rounded-bl-sm border border-[var(--echo-parchment)]'}
-                      `}
-                    >
-                      <p className="font-body text-[15px] leading-relaxed">{msg.content}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Area */}
-            <div className="p-4 border-t border-[var(--echo-parchment)] bg-[var(--echo-cream)]/30">
-              {mode === 'voice' ? (
-                <div className="flex flex-col items-center gap-4 py-4">
-                  <Button
-                    variant={isMuted ? 'danger' : 'primary'}
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="rounded-full w-20 h-20 p-0"
-                  >
-                    {isMuted ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
-                  </Button>
+                  <h2 className="text-xl font-display font-bold text-[var(--echo-ink)] mb-2">
+                    Bắt đầu cuộc trò chuyện
+                  </h2>
                   <p className="text-sm text-[var(--echo-ink-muted)]">
-                    {isMuted ? 'Đang tắt mic' : 'Nhấn để nói'}
+                    Kết nối với người lạ ẩn danh
                   </p>
                 </div>
-              ) : (
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    placeholder="Nhập tin nhắn..."
-                    className="flex-grow h-12 px-4 rounded-xl border-2 border-[var(--echo-parchment)] bg-white text-[var(--echo-ink)] focus:border-[var(--echo-wood)] focus:outline-none transition-colors font-ui placeholder:text-[var(--echo-ink-muted)]"
-                  />
-                  <Button onClick={handleSendMessage}>
-                    <Send className="w-5 h-5" />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </Card>
 
-          <div className="mt-6 text-center">
-            <Button variant="ghost" onClick={handleEndSession} className="text-[var(--echo-ink-muted)]">
-              Kết thúc cuộc trò chuyện
-            </Button>
+                {/* Guidelines */}
+                <div className="mb-6 p-4 bg-[var(--echo-cream)]/50 rounded-xl">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Shield className="w-4 h-4 text-[var(--echo-wood)]" />
+                    <span className="text-sm font-medium text-[var(--echo-ink)]">Lưu ý</span>
+                  </div>
+                  <ul className="text-sm text-[var(--echo-ink-muted)] space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--echo-wood)] mt-0.5">-</span>
+                      Tự động kết thúc sau 5 phút
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--echo-wood)] mt-0.5">-</span>
+                      Không lưu lại lịch sử
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--echo-wood)] mt-0.5">-</span>
+                      Tôn trọng và lắng nghe
+                    </li>
+                  </ul>
+                </div>
+
+                <Button onClick={handleStartSession} fullWidth>
+                  <Sparkles className="w-5 h-5" />
+                  Tìm người trò chuyện
+                </Button>
+              </Card>
+            </motion.div>
+          ) : isWaiting ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="max-w-md mx-auto"
+            >
+              <Card className="text-center">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                  className="w-20 h-20 rounded-full border-4 border-[var(--echo-wood)] border-t-transparent mx-auto mb-6"
+                />
+                <h2 className="text-xl font-display font-bold text-[var(--echo-ink)] mb-2">
+                  Đang tìm người phù hợp...
+                </h2>
+                <p className="text-[var(--echo-ink-muted)] mb-6">
+                  Vui lòng chờ trong giây lát
+                </p>
+                <Button variant="ghost" onClick={() => setIsWaiting(false)}>
+                  Hủy bỏ
+                </Button>
+              </Card>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="max-w-2xl mx-auto"
+            >
+              <Card className="overflow-hidden p-0">
+                {/* Chat Header */}
+                <div className="flex items-center justify-between p-4 border-b border-[var(--echo-parchment)]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--echo-wood)] to-[var(--echo-wood-dark)] flex items-center justify-center">
+                      <User className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-medium text-[var(--echo-ink)]">Người lạ ẩn danh</div>
+                      <div className="text-xs text-emerald-500 flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Đang kết nối
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 bg-[var(--echo-cream)] px-3 py-1.5 rounded-lg">
+                      <Clock className="w-4 h-4 text-[var(--echo-ink-muted)]" />
+                      <span className="font-mono text-sm font-medium">{formatTime(timeLeft)}</span>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={handleEndSession} className="text-red-500 hover:bg-red-50">
+                      <X className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Messages */}
+                <div className="h-[400px] overflow-y-auto p-4 space-y-4">
+                  <AnimatePresence>
+                    {messages.map((msg) => (
+                      <motion.div
+                        key={msg.id}
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`
+                            max-w-[85%] px-5 py-3 rounded-2xl
+                            ${msg.sender === 'me'
+                              ? 'bg-gradient-to-br from-[var(--echo-wood)] to-[var(--echo-wood-dark)] text-white rounded-br-sm'
+                              : 'bg-white text-[var(--echo-ink)] rounded-bl-sm border border-[var(--echo-parchment)]'}
+                          `}
+                        >
+                          <p className="font-body text-[15px] leading-relaxed">{msg.content}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {/* Input Area */}
+                <div className="p-4 border-t border-[var(--echo-parchment)] bg-[var(--echo-cream)]/30">
+                  <div className="flex gap-3">
+                    <input
+                      type="text"
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                      placeholder="Nhập tin nhắn..."
+                      className="flex-grow h-12 px-4 rounded-xl border-2 border-[var(--echo-parchment)] bg-white text-[var(--echo-ink)] focus:border-[var(--echo-wood)] focus:outline-none transition-colors font-ui placeholder:text-[var(--echo-ink-muted)]"
+                    />
+                    <Button onClick={handleSendMessage}>
+                      <Send className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              <div className="mt-6 text-center">
+                <Button variant="ghost" onClick={handleEndSession} className="text-[var(--echo-ink-muted)]">
+                  Kết thúc cuộc trò chuyện
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </>
+      )}
+
+      {/* Mode Selection Toggle */}
+      {!isConnected && !isWaiting && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 max-w-lg mx-auto"
+        >
+          <div className="flex items-center gap-4 p-1 bg-[var(--echo-cream)]/50 rounded-xl">
+            <button
+              onClick={() => setMode('text')}
+              className={`
+                flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-all
+                ${mode === 'text'
+                  ? 'bg-white text-[var(--echo-wood)] shadow-sm font-medium'
+                  : 'text-[var(--echo-ink-muted)] hover:text-[var(--echo-ink)]'}
+              `}
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>Nhắn tin</span>
+            </button>
+            <button
+              onClick={() => setMode('voice')}
+              className={`
+                flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-all
+                ${mode === 'voice'
+                  ? 'bg-white text-[var(--echo-wood)] shadow-sm font-medium'
+                  : 'text-[var(--echo-ink-muted)] hover:text-[var(--echo-ink)]'}
+              `}
+            >
+              <Mic className="w-5 h-5" />
+              <span>Gọi thoại</span>
+            </button>
           </div>
         </motion.div>
       )}

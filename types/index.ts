@@ -78,3 +78,27 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
 }
+
+// Voice Call Types
+export type CallStatus = 'idle' | 'matching' | 'connecting' | 'connected' | 'ended';
+
+export interface CallRoom {
+  roomId: string;
+  participants: CallParticipant[];
+  status: CallStatus;
+  createdAt: Date;
+  endedAt?: Date;
+}
+
+export interface CallParticipant {
+  id: string;
+  socketId: string;
+  joinedAt: Date;
+}
+
+export interface SignalData {
+  type: 'offer' | 'answer' | 'ice-candidate';
+  roomId: string;
+  senderId: string;
+  payload: RTCSessionDescriptionInit | RTCIceCandidateInit;
+}
