@@ -11,17 +11,7 @@ import {
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
-
-interface CategoryInfo {
-  id: string;
-  name: string;
-  nameVi: string;
-  subtitle: string;
-  description: string;
-  color: string;
-  letter: string;
-  tips: string[];
-}
+import { getCategory, CategoryInfo } from '@/lib/quiz-data';
 
 interface QuizResult {
   _id: string;
@@ -109,8 +99,24 @@ export default function LetterPage() {
       const data = await response.json();
       
       if (data.success && data.data.results) {
+        // Get full category info from quiz-data
+        const resultsWithCategoryInfo = data.data.results.map((result: { percentage: number; category: string; [key: string]: unknown }) => {
+          const categoryInfo = getCategory(result.percentage);
+          return {
+            ...result,
+            category: {
+              id: result.category,
+              name: categoryInfo.name,
+              nameVi: categoryInfo.nameVi,
+              subtitle: categoryInfo.subtitle,
+              description: categoryInfo.description,
+              letter: categoryInfo.letter,
+              tips: categoryInfo.tips,
+            }
+          };
+        });
         // Sắp xếp theo ngày mới nhất
-        const sorted = data.data.results.sort((a: QuizResult, b: QuizResult) => 
+        const sorted = resultsWithCategoryInfo.sort((a: QuizResult, b: QuizResult) => 
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         setResults(sorted);

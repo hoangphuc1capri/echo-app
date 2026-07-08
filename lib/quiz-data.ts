@@ -1,4 +1,5 @@
 import { QuizQuestion, CategoryInfo } from '@/types';
+export type { CategoryInfo };
 
 export const quizQuestions: QuizQuestion[] = [
   {

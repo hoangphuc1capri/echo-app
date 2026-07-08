@@ -21,7 +21,7 @@ const quizResultSchema = new Schema({
   },
   category: {
     type: String,
-    enum: ['seed_keeper', 'walker', 'supported', 'borrowed_mind', 'echo_prisoner'],
+    enum: ['seed_keeper', 'walker', 'supported', 'hidden_dependent', 'ai_living'],
     required: true,
   },
   createdAt: {
