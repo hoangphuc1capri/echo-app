@@ -134,7 +134,7 @@ export default function LandingPage() {
             >
               <Sparkles className="w-4 h-4 text-[#C9A227]" aria-hidden="true" />
               <span className="text-sm font-ui text-[#6B5B4F]">
-                Dự án nghiên cứu khoa học cấp tỉnh 2026-2027
+                Dự án nghiên cứu khoa học 2026-2027
               </span>
             </motion.div>
 
