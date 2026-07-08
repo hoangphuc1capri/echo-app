@@ -228,7 +228,7 @@ export default function LetterPage() {
                 >
                   <Sparkles className="w-5 h-5 text-[#C9A227]" />
                   <span className="font-ui font-medium text-[var(--echo-ink)]">
-                    Điểm Tự Chủ: {selectedResult.percentage}%
+                    Độ Tự Chủ: {selectedResult.percentage}%
                   </span>
                   <span className="text-[var(--echo-ink-muted)]">•</span>
                   <span className="font-ui text-[var(--echo-ink-muted)]">

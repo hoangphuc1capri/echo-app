@@ -216,6 +216,16 @@ export default function QuizPage() {
                 Lá: <span className="font-semibold text-[#C9A227]">{leaves}</span>
               </span>
             </div>
+            <div className="flex items-center gap-2 text-xs text-[#6B5B4F] mt-2">
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-[#4A7C23]"></span>
+                Tự Lập
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-[#C9A227]"></span>
+                Hỗ Trợ AI
+              </span>
+            </div>
           </div>
           
           {/* Progress */}
@@ -446,11 +456,11 @@ export default function QuizPage() {
                   <div className="flex items-center gap-4 mt-3 text-xs text-[#6B5B4F]">
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 rounded bg-[#4A7C23]/20 border border-[#4A7C23]" />
-                      <span>Cành (độc lập)</span>
+                      <span>Tự Lập</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 rounded bg-[#C9A227]/20 border border-[#C9A227]" />
-                      <span>Lá (hỗ trợ)</span>
+                      <span>Hỗ Trợ AI</span>
                     </div>
                   </div>
                 </div>

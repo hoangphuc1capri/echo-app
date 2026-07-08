@@ -36,6 +36,8 @@ export default function ResultsPage() {
   }
 
   const { score, percentage, category } = result;
+  // branches = độc lập (D,C), leaves = hỗ trợ AI (A,B)
+  // score thấp = độc lập cao = nhiều branches
   const branches = Math.floor((80 - score) / 10);
   const leaves = 8 - branches;
 
@@ -111,7 +113,7 @@ export default function ResultsPage() {
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div className="text-3xl font-bold text-amber-600">{percentage}%</div>
-              <div className="text-xs text-[var(--echo-ink-muted)] mt-1">Phụ thuộc AI</div>
+              <div className="text-xs text-[var(--echo-ink-muted)] mt-1">Độ Tự Chủ</div>
             </Card>
 
             <Card className="text-center">
@@ -160,14 +162,14 @@ export default function ResultsPage() {
                   currentQuestion={20}
                 />
               </div>
-              <div className="flex items-center justify-center gap-6 mt-6 text-sm">
+                <div className="flex items-center justify-center gap-6 mt-6 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="text-[var(--echo-ink-muted)]">Cành: {branches}</span>
+                  <span className="text-[var(--echo-ink-muted)]">Tự Lập: {branches}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-amber-500" />
-                  <span className="text-[var(--echo-ink-muted)]">Lá: {leaves}</span>
+                  <span className="text-[var(--echo-ink-muted)]">Hỗ Trợ AI: {leaves}</span>
                 </div>
               </div>
             </Card>
@@ -212,15 +214,15 @@ export default function ResultsPage() {
                   <Badge variant={categoryBadgeMap[category.id] || 'default'} />
                 </div>
                 <div className="flex items-center justify-between p-3 bg-[var(--echo-cream)] rounded-xl">
-                  <span className="text-sm text-[var(--echo-ink-muted)]">Phụ thuộc</span>
+                  <span className="text-sm text-[var(--echo-ink-muted)]">Độ Tự Chủ</span>
                   <span className="text-sm font-medium text-amber-600">{percentage}%</span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-[var(--echo-cream)] rounded-xl">
-                  <span className="text-sm text-[var(--echo-ink-muted)]">Cành (độc lập)</span>
+                  <span className="text-sm text-[var(--echo-ink-muted)]">Tự Lập</span>
                   <span className="text-sm font-medium text-emerald-600">{branches}</span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-[var(--echo-cream)] rounded-xl">
-                  <span className="text-sm text-[var(--echo-ink-muted)]">Lá (hỗ trợ)</span>
+                  <span className="text-sm text-[var(--echo-ink-muted)]">Hỗ Trợ AI</span>
                   <span className="text-sm font-medium text-amber-600">{leaves}</span>
                 </div>
               </div>
