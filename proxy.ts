@@ -1,41 +1,39 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyAdminToken } from '@/lib/admin-auth';
+import { verifyToken } from '@/lib/auth';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Admin auth routes are always accessible (login API)
-  if (pathname.startsWith('/api/auth/login')) {
+  // Only protect admin routes
+  const isAdminPage = pathname.startsWith('/admin');
+  const isAdminApi = pathname.startsWith('/api/admin');
+  if (!isAdminPage && !isAdminApi) {
     return NextResponse.next();
   }
 
-  // Protect all /admin/* pages
-  if (pathname.startsWith('/admin/')) {
-    const token = request.cookies.get('admin-token')?.value;
-    if (!token) {
-      return NextResponse.redirect(new URL('/admin/login', request.url));
-    }
-    const payload = await verifyAdminToken(token);
-    if (!payload) {
-      const response = NextResponse.redirect(new URL('/admin/login', request.url));
-      response.cookies.delete('admin-token');
-      return response;
-    }
+  const token = request.cookies.get('auth-token')?.value;
+  const payload = token ? await verifyToken(token) : null;
+  const isAdmin = payload?.role === 'admin';
+
+  // Invalid token -> clear cookie
+  if (token && !payload) {
+    const r = isAdminApi
+      ? NextResponse.json({ success: false, error: 'Token không hợp lệ' }, { status: 401 })
+      : NextResponse.redirect(new URL('/auth', request.url));
+    r.cookies.delete('auth-token');
+    return r;
   }
 
-  // Protect all /api/admin/* routes (except login)
-  if (pathname.startsWith('/api/admin/') && !pathname.startsWith('/api/admin/login')) {
-    const token = request.cookies.get('admin-token')?.value;
-    if (!token) {
-      return NextResponse.json({ success: false, error: 'Chưa đăng nhập admin' }, { status: 401 });
+  // No token OR not admin
+  if (!isAdmin) {
+    if (isAdminApi) {
+      return NextResponse.json({ success: false, error: 'Cần quyền admin' }, { status: 403 });
     }
-    const payload = await verifyAdminToken(token);
-    if (!payload) {
-      const response = NextResponse.json({ success: false, error: 'Token không hợp lệ' }, { status: 401 });
-      response.cookies.delete('admin-token');
-      return response;
-    }
+    // For pages: send to /auth with return URL
+    const url = new URL('/auth', request.url);
+    url.searchParams.set('next', pathname);
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
