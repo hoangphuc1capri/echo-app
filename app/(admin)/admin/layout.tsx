@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { LogOut, Menu, X, BarChart3, Users, FileText } from 'lucide-react';
@@ -15,6 +15,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // Protect: only admins can access admin pages
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    const token = localStorage.getItem('auth-token');
+    if (!token || !userData) {
+      router.push('/auth');
+      return;
+    }
+    const parsed = JSON.parse(userData);
+    if (parsed.role !== 'admin') {
+      router.push('/dashboard');
+    }
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');

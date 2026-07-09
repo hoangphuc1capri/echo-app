@@ -36,10 +36,15 @@ export default function MainLayout({
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
+    const isAdmin = localStorage.getItem('user') ? JSON.parse(userData!).role === 'admin' : false;
+    if (isAdmin) {
+      router.push('/admin');
+      return;
+    }
     if (userData) {
       setUser(JSON.parse(userData));
     }
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
