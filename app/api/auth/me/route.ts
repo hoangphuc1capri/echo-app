@@ -1,29 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth';
+import { getAuthFromRequest } from '@/lib/auth-server';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    const authUser = await getAuthFromRequest(request);
     
-    if (!token) {
+    if (!authUser) {
       return NextResponse.json(
-        { success: false, error: 'Không có token' },
-        { status: 401 }
-      );
-    }
-
-    const payload = await verifyToken(token);
-    if (!payload) {
-      return NextResponse.json(
-        { success: false, error: 'Token không hợp lệ' },
+        { success: false, error: 'Vui lòng đăng nhập' },
         { status: 401 }
       );
     }
 
     await connectDB();
-    const user = await User.findById(payload.userId).select('-password');
+    const user = await User.findById(authUser.userId).select('-password');
     
     if (!user) {
       return NextResponse.json(

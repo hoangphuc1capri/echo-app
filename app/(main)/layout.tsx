@@ -36,7 +36,7 @@ export default function MainLayout({
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
-    const isAdmin = localStorage.getItem('user') ? JSON.parse(userData!).role === 'admin' : false;
+    const isAdmin = userData ? JSON.parse(userData).role === 'admin' : false;
     if (isAdmin) {
       router.push('/admin');
       return;

@@ -4,9 +4,6 @@ import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 import { signToken } from '@/lib/auth';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@echo.vn';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
@@ -18,25 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Admin login (uses env credentials, no DB needed)
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      const token = await signToken({
-        userId: 'admin',
-        email: ADMIN_EMAIL,
-        role: 'admin',
-      });
-      return NextResponse.json({
-        success: true,
-        isAdmin: true,
-        data: {
-          token,
-          user: { _id: 'admin', email: ADMIN_EMAIL, name: 'Quản trị viên', role: 'admin' },
-        },
-      });
-    }
-
-    // Regular user login
     await connectDB();
+
+    // Find user by email
     const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json(
@@ -45,17 +26,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Generate token with role
     const token = await signToken({
       userId: user._id.toString(),
       email: user.email,
+      role: user.role,
     });
 
     return NextResponse.json({
       success: true,
-      isAdmin: false,
       data: {
         token,
-        user: { _id: user._id, email: user.email, name: user.name || '' },
+        user: {
+          _id: user._id,
+          email: user.email,
+          name: user.name || '',
+          role: user.role,
+        },
       },
     });
   } catch (error) {

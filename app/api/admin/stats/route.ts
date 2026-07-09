@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth-server';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 import { QuizResult } from '@/models/QuizResult';
@@ -16,7 +17,7 @@ function startOf(d: Date, unit: 'day' | 'week' | 'month') {
   return x;
 }
 
-export async function GET() {
+const GET = requireAdmin(async () => {
   try {
     await connectDB();
 
@@ -41,14 +42,14 @@ export async function GET() {
       quizzesByDayAgg,
       topUsersAgg,
     ] = await Promise.all([
-      User.countDocuments(),
+      User.countDocuments({ role: { $ne: 'admin' } }),
       QuizResult.countDocuments(),
       User.countDocuments({ _id: { $in: await QuizResult.distinct('userId') } }),
-      User.countDocuments({ createdAt: { $gte: dayStart } }),
+      User.countDocuments({ createdAt: { $gte: dayStart }, role: { $ne: 'admin' } }),
       QuizResult.countDocuments({ createdAt: { $gte: dayStart } }),
-      User.countDocuments({ createdAt: { $gte: weekStart } }),
+      User.countDocuments({ createdAt: { $gte: weekStart }, role: { $ne: 'admin' } }),
       QuizResult.countDocuments({ createdAt: { $gte: weekStart } }),
-      User.countDocuments({ createdAt: { $gte: monthStart } }),
+      User.countDocuments({ createdAt: { $gte: monthStart }, role: { $ne: 'admin' } }),
       QuizResult.countDocuments({ createdAt: { $gte: monthStart } }),
       QuizResult.aggregate([
         { $group: { _id: '$category', count: { $sum: 1 } } },
@@ -120,4 +121,6 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});
+
+export { GET };

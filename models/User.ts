@@ -1,5 +1,7 @@
 import mongoose, { Schema, model, models } from 'mongoose';
 
+export type UserRole = 'admin' | 'user';
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -15,6 +17,11 @@ const userSchema = new Schema({
   name: {
     type: String,
     trim: true,
+  },
+  role: {
+    type: String,
+    enum: ['admin', 'user'],
+    default: 'user',
   },
   createdAt: {
     type: Date,

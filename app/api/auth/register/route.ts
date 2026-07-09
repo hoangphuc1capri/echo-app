@@ -29,17 +29,19 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create user
+    // Create user with default role 'user'
     const user = await User.create({
       email: email.toLowerCase(),
       password: hashedPassword,
       name: name || '',
+      role: 'user',
     });
 
     // Generate token
     const token = await signToken({
       userId: user._id.toString(),
       email: user.email,
+      role: user.role,
     });
 
     return NextResponse.json({
@@ -49,6 +51,7 @@ export async function POST(request: NextRequest) {
           _id: user._id,
           email: user.email,
           name: user.name,
+          role: user.role,
         },
         token,
       },

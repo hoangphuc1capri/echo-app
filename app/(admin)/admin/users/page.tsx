@@ -1,13 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Download, RefreshCw, Search, Trash2 } from 'lucide-react';
+import { Download, RefreshCw, Search, Trash2, Plus, X } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
+import Card from '@/components/ui/Card';
 
 interface User {
   _id: string;
   email: string;
   name?: string;
+  role?: 'admin' | 'user';
   createdAt: string;
 }
 
@@ -21,6 +25,10 @@ export default function AdminUsersPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [showCreateAdmin, setShowCreateAdmin] = useState(false);
+  const [adminForm, setAdminForm] = useState({ email: '', password: '', name: '' });
+  const [creatingAdmin, setCreatingAdmin] = useState(false);
+  const [adminError, setAdminError] = useState('');
 
   const limit = 15;
 
@@ -70,6 +78,28 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleCreateAdmin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCreatingAdmin(true);
+    setAdminError('');
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(adminForm),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error);
+      setShowCreateAdmin(false);
+      setAdminForm({ email: '', password: '', name: '' });
+      alert('Tạo tài khoản admin thành công!');
+    } catch (e) {
+      setAdminError(e instanceof Error ? e.message : 'Tạo thất bại');
+    } finally {
+      setCreatingAdmin(false);
+    }
+  };
+
   const exportExcel = async () => {
     setExporting(true);
     try {
@@ -105,6 +135,13 @@ export default function AdminUsersPage() {
           <p className="text-sm text-[#6B5B4F] mt-0.5">{total} tài khoản</p>
         </div>
         <div className="flex gap-2">
+          <button
+            onClick={() => setShowCreateAdmin(true)}
+            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-[#5C4033] text-white hover:bg-[#4A3328] transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Tạo Admin
+          </button>
           <button
             onClick={load}
             className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-[#E5DCC8] bg-white hover:bg-[#F5EDE0] transition-colors"
@@ -227,6 +264,72 @@ export default function AdminUsersPage() {
           </div>
         )}
       </div>
+
+      {/* Create Admin Modal */}
+      {showCreateAdmin && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <Card variant="elevated" padding="lg" className="w-full max-w-md bg-white">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-display font-bold text-[#2C1810]">Tạo tài khoản Admin</h2>
+              <button
+                onClick={() => setShowCreateAdmin(false)}
+                className="p-1 hover:bg-[#F5EDE0] rounded"
+              >
+                <X className="w-5 h-5 text-[#6B5B4F]" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateAdmin} className="space-y-4">
+              <Input
+                type="text"
+                label="Email"
+                placeholder="admin@example.com"
+                value={adminForm.email}
+                onChange={(e) => setAdminForm({ ...adminForm, email: e.target.value })}
+                required
+              />
+              <Input
+                type="text"
+                label="Tên"
+                placeholder="Tên admin"
+                value={adminForm.name}
+                onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })}
+              />
+              <Input
+                type="password"
+                label="Mật khẩu"
+                placeholder="Ít nhất 6 ký tự"
+                value={adminForm.password}
+                onChange={(e) => setAdminForm({ ...adminForm, password: e.target.value })}
+                required
+              />
+
+              {adminError && (
+                <p className="text-sm text-red-600">{adminError}</p>
+              )}
+
+              <div className="flex gap-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowCreateAdmin(false)}
+                  className="flex-1"
+                >
+                  Hủy
+                </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  isLoading={creatingAdmin}
+                  className="flex-1"
+                >
+                  Tạo Admin
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

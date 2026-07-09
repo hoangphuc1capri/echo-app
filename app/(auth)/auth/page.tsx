@@ -48,7 +48,8 @@ export default function AuthPage() {
 
       const params = new URLSearchParams(window.location.search);
       const next = params.get('next');
-      const target = next || (data.isAdmin ? '/admin' : '/quiz');
+      const isAdmin = data.data.user.role === 'admin';
+      const target = next || (isAdmin ? '/admin' : '/quiz');
       router.push(target);
     } catch {
       setError('Đã xảy ra lỗi kết nối');
