@@ -6,6 +6,11 @@ async function cleanup() {
   try {
     await mongoose.connect(MONGODB_URI);
     
+    if (!mongoose.connection.db) {
+      console.error('Không thể kết nối database');
+      process.exit(1);
+    }
+    
     const result = await mongoose.connection.db.collection('quizresults').deleteMany({
       category: { $in: ['borrowed_mind', 'echo_prisoner'] }
     });
