@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,13 +22,6 @@ export default function QuizPage() {
   const leaves = answers.filter(a => a !== null && a <= 2).length;
   const answeredCount = answers.filter(a => a !== null).length;
   const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
-
-  useEffect(() => {
-    const token = localStorage.getItem('auth-token');
-    if (!token) {
-      router.push('/auth');
-    }
-  }, [router]);
 
   const handleSelectAnswer = useCallback((score: number) => {
     setSelectedAnswer(score);
