@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth-server';
+import { requireAdmin, AuthUser } from '@/lib/auth-server';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
 import { QuizResult } from '@/models/QuizResult';
@@ -17,7 +17,7 @@ function startOf(d: Date, unit: 'day' | 'week' | 'month') {
   return x;
 }
 
-const GET = requireAdmin(async () => {
+const GET = requireAdmin(async (_req: NextRequest, _user: AuthUser) => {
   try {
     await connectDB();
 

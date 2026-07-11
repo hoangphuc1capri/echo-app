@@ -1,11 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Download, RefreshCw, Search, Trash2, Plus, X } from 'lucide-react';
+import { Download, RefreshCw, Search, Trash2, Plus, X, UserPlus } from 'lucide-react';
 import * as XLSX from 'xlsx';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
-import Card from '@/components/ui/Card';
 
 interface User {
   _id: string;
@@ -92,6 +89,7 @@ export default function AdminUsersPage() {
       if (!data.success) throw new Error(data.error);
       setShowCreateAdmin(false);
       setAdminForm({ email: '', password: '', name: '' });
+      load();
       alert('Tạo tài khoản admin thành công!');
     } catch (e) {
       setAdminError(e instanceof Error ? e.message : 'Tạo thất bại');
@@ -129,22 +127,29 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-display font-bold text-[#2C1810]">Người dùng</h1>
-          <p className="text-sm text-[#6B5B4F] mt-0.5">{total} tài khoản</p>
+          <h1 className="text-3xl font-display font-bold" style={{ color: 'var(--echo-ink)' }}>Người dùng</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--echo-ink-muted)' }}>{total} tài khoản</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={() => setShowCreateAdmin(true)}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-[#5C4033] text-white hover:bg-[#4A3328] transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all"
+            style={{ backgroundColor: 'var(--echo-ink)', color: 'white' }}
           >
-            <Plus className="w-4 h-4" />
+            <UserPlus className="w-4 h-4" />
             Tạo Admin
           </button>
           <button
             onClick={load}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-[#E5DCC8] bg-white hover:bg-[#F5EDE0] transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border-2 transition-all disabled:opacity-50"
+            style={{ 
+              backgroundColor: 'white', 
+              borderColor: 'var(--echo-parchment-dark)',
+              color: 'var(--echo-ink)'
+            }}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Làm mới
@@ -152,7 +157,8 @@ export default function AdminUsersPage() {
           <button
             onClick={exportExcel}
             disabled={!total || exporting}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-[#059669] text-white hover:bg-[#047857] disabled:opacity-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all shadow-md disabled:opacity-50"
+            style={{ backgroundColor: 'var(--echo-wood)', color: 'white' }}
           >
             <Download className="w-4 h-4" />
             {exporting ? 'Đang xuất...' : 'Xuất Excel'}
@@ -160,18 +166,24 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E5DCC8] p-3 mb-4">
-        <div className="flex items-center gap-2">
-          <Search className="w-4 h-4 text-[#6B5B4F]" />
+      {/* Search */}
+      <div className="rounded-xl p-3 mb-6 shadow-sm" style={{ backgroundColor: 'white' }}>
+        <div className="flex items-center gap-3">
+          <Search className="w-5 h-5" style={{ color: 'var(--echo-ink-muted)' }} />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Tìm theo email hoặc tên..."
             className="flex-1 bg-transparent text-sm focus:outline-none"
+            style={{ color: 'var(--echo-ink)' }}
           />
           {search && (
-            <button onClick={() => setSearch('')} className="text-xs text-[#6B5B4F]">
+            <button 
+              onClick={() => setSearch('')} 
+              className="text-xs px-2 py-1 rounded-lg transition-colors"
+              style={{ color: 'var(--echo-ink-muted)', backgroundColor: 'var(--echo-parchment)' }}
+            >
               Xóa
             </button>
           )}
@@ -179,54 +191,60 @@ export default function AdminUsersPage() {
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-          {error}
+        <div className="mb-6 p-4 rounded-xl border-2" style={{ backgroundColor: '#FEE2E2', borderColor: '#FECACA', color: '#DC2626' }}>
+          <p className="text-sm font-medium">{error}</p>
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-[#E5DCC8] overflow-hidden">
+      {/* Table */}
+      <div className="rounded-2xl overflow-hidden shadow-md" style={{ backgroundColor: 'white' }}>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#FAF6F0] border-b border-[#E5DCC8] text-xs text-[#6B5B4F] uppercase">
-                <th className="text-left px-4 py-3 font-medium w-10">#</th>
-                <th className="text-left px-4 py-3 font-medium">Email</th>
-                <th className="text-left px-4 py-3 font-medium">Tên</th>
-                <th className="text-left px-4 py-3 font-medium">Ngày đăng ký</th>
-                <th className="text-right px-4 py-3 font-medium w-20"></th>
+              <tr style={{ backgroundColor: 'var(--echo-parchment-light)' }}>
+                <th className="text-left px-5 py-4 font-semibold w-12" style={{ color: 'var(--echo-ink)' }}>#</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Email</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Tên</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Ngày đăng ký</th>
+                <th className="text-right px-5 py-4 font-semibold w-24" style={{ color: 'var(--echo-ink)' }}></th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-[#6B5B4F]">
-                    Đang tải...
+                  <td colSpan={5} className="px-5 py-12 text-center">
+                    <div className="w-6 h-6 rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--echo-parchment)', borderTopColor: 'var(--echo-wood)' }} />
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-[#6B5B4F]">
+                  <td colSpan={5} className="px-5 py-12 text-center" style={{ color: 'var(--echo-ink-muted)' }}>
                     Không có dữ liệu
                   </td>
                 </tr>
               ) : (
                 users.map((u, i) => (
-                  <tr key={u._id} className="border-b border-[#F5EDE0] last:border-0 hover:bg-[#FAF6F0]">
-                    <td className="px-4 py-3 text-[#6B5B4F]">{(page - 1) * limit + i + 1}</td>
-                    <td className="px-4 py-3 text-[#2C1810]">{u.email}</td>
-                    <td className="px-4 py-3 text-[#2C1810]">
-                      {u.name || <span className="text-[#6B5B4F] italic">—</span>}
+                  <tr 
+                    key={u._id} 
+                    className="border-t transition-colors"
+                    style={{ borderColor: 'var(--echo-parchment)' }}
+                  >
+                    <td className="px-5 py-4" style={{ color: 'var(--echo-ink-muted)' }}>{(page - 1) * limit + i + 1}</td>
+                    <td className="px-5 py-4" style={{ color: 'var(--echo-ink)' }}>{u.email}</td>
+                    <td className="px-5 py-4" style={{ color: 'var(--echo-ink)' }}>
+                      {u.name || <span className="italic" style={{ color: 'var(--echo-ink-muted)' }}>—</span>}
                     </td>
-                    <td className="px-4 py-3 text-[#6B5B4F]">
+                    <td className="px-5 py-4" style={{ color: 'var(--echo-ink-muted)' }}>
                       {new Date(u.createdAt).toLocaleDateString('vi-VN')}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-5 py-4 text-right">
                       <button
                         onClick={() => handleDelete(u._id)}
                         disabled={deleting === u._id}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-50"
+                        style={{ color: '#DC2626', backgroundColor: '#FEE2E2' }}
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-4 h-4" />
                         {deleting === u._id ? '...' : 'Xóa'}
                       </button>
                     </td>
@@ -238,25 +256,27 @@ export default function AdminUsersPage() {
         </div>
 
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E5DCC8] text-xs text-[#6B5B4F]">
-            <span>
+          <div className="flex items-center justify-between px-5 py-4 border-t" style={{ borderColor: 'var(--echo-parchment)' }}>
+            <span className="text-sm" style={{ color: 'var(--echo-ink-muted)' }}>
               {(page - 1) * limit + 1}–{Math.min(page * limit, total)} / {total}
             </span>
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-3 py-1 rounded border border-[#E5DCC8] bg-white disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl border-2 transition-all disabled:opacity-50"
+                style={{ backgroundColor: 'white', borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
               >
                 Trước
               </button>
-              <span className="px-3 py-1">
+              <span className="px-4 py-2 text-sm font-medium" style={{ color: 'var(--echo-ink)' }}>
                 {page}/{totalPages}
               </span>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-3 py-1 rounded border border-[#E5DCC8] bg-white disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl border-2 transition-all disabled:opacity-50"
+                style={{ backgroundColor: 'white', borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
               >
                 Sau
               </button>
@@ -267,67 +287,81 @@ export default function AdminUsersPage() {
 
       {/* Create Admin Modal */}
       {showCreateAdmin && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <Card variant="elevated" padding="lg" className="w-full max-w-md bg-white">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-display font-bold text-[#2C1810]">Tạo tài khoản Admin</h2>
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="w-full max-w-md rounded-2xl shadow-2xl overflow-hidden" style={{ backgroundColor: 'white' }}>
+            <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--echo-parchment)' }}>
+              <h2 className="text-lg font-display font-bold" style={{ color: 'var(--echo-ink)' }}>Tạo tài khoản Admin</h2>
               <button
                 onClick={() => setShowCreateAdmin(false)}
-                className="p-1 hover:bg-[#F5EDE0] rounded"
+                className="p-1.5 rounded-lg transition-colors"
+                style={{ backgroundColor: 'var(--echo-parchment-light)' }}
               >
-                <X className="w-5 h-5 text-[#6B5B4F]" />
+                <X className="w-5 h-5" style={{ color: 'var(--echo-ink-muted)' }} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateAdmin} className="space-y-4">
-              <Input
-                type="text"
-                label="Email"
-                placeholder="admin@example.com"
-                value={adminForm.email}
-                onChange={(e) => setAdminForm({ ...adminForm, email: e.target.value })}
-                required
-              />
-              <Input
-                type="text"
-                label="Tên"
-                placeholder="Tên admin"
-                value={adminForm.name}
-                onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })}
-              />
-              <Input
-                type="password"
-                label="Mật khẩu"
-                placeholder="Ít nhất 6 ký tự"
-                value={adminForm.password}
-                onChange={(e) => setAdminForm({ ...adminForm, password: e.target.value })}
-                required
-              />
+            <form onSubmit={handleCreateAdmin} className="p-5 space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--echo-ink)' }}>Email</label>
+                <input
+                  type="email"
+                  value={adminForm.email}
+                  onChange={(e) => setAdminForm({ ...adminForm, email: e.target.value })}
+                  placeholder="admin@example.com"
+                  required
+                  className="w-full px-4 py-2.5 rounded-xl border-2 focus:outline-none transition-all"
+                  style={{ borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--echo-ink)' }}>Tên</label>
+                <input
+                  type="text"
+                  value={adminForm.name}
+                  onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })}
+                  placeholder="Tên admin"
+                  className="w-full px-4 py-2.5 rounded-xl border-2 focus:outline-none transition-all"
+                  style={{ borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--echo-ink)' }}>Mật khẩu</label>
+                <input
+                  type="password"
+                  value={adminForm.password}
+                  onChange={(e) => setAdminForm({ ...adminForm, password: e.target.value })}
+                  placeholder="Ít nhất 6 ký tự"
+                  required
+                  minLength={6}
+                  className="w-full px-4 py-2.5 rounded-xl border-2 focus:outline-none transition-all"
+                  style={{ borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
+                />
+              </div>
 
               {adminError && (
-                <p className="text-sm text-red-600">{adminError}</p>
+                <p className="text-sm" style={{ color: '#DC2626' }}>{adminError}</p>
               )}
 
-              <div className="flex gap-2 pt-2">
-                <Button
+              <div className="flex gap-3 pt-2">
+                <button
                   type="button"
-                  variant="outline"
                   onClick={() => setShowCreateAdmin(false)}
-                  className="flex-1"
+                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl border-2 transition-all"
+                  style={{ borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
                 >
                   Hủy
-                </Button>
-                <Button
+                </button>
+                <button
                   type="submit"
-                  variant="primary"
-                  isLoading={creatingAdmin}
-                  className="flex-1"
+                  disabled={creatingAdmin}
+                  className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl transition-all disabled:opacity-50"
+                  style={{ backgroundColor: 'var(--echo-wood)', color: 'white' }}
                 >
-                  Tạo Admin
-                </Button>
+                  {creatingAdmin ? 'Đang tạo...' : 'Tạo Admin'}
+                </button>
               </div>
             </form>
-          </Card>
+          </div>
         </div>
       )}
     </div>

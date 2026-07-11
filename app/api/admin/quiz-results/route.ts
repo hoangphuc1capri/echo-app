@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth-server';
+import { requireAdmin, AuthUser } from '@/lib/auth-server';
 import { connectDB } from '@/lib/db';
 import { QuizResult } from '@/models/QuizResult';
 import { User } from '@/models/User';
 
-const GET = requireAdmin(async (request: NextRequest) => {
+const GET = requireAdmin(async (request: NextRequest, _user: AuthUser) => {
   try {
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
@@ -54,7 +54,7 @@ const GET = requireAdmin(async (request: NextRequest) => {
   }
 });
 
-const DELETE = requireAdmin(async (request: NextRequest) => {
+const DELETE = requireAdmin(async (request: NextRequest, _user: AuthUser) => {
   try {
     const id = new URL(request.url).searchParams.get('id');
     if (!id || !/^[a-f0-9]{24}$/i.test(id)) {

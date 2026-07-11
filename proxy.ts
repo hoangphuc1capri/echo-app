@@ -12,7 +12,11 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get('auth-token')?.value;
+  // Try Authorization header first (for API calls), then cookie (for pages)
+  const authHeader = request.headers.get('authorization');
+  const cookieToken = request.cookies.get('auth-token')?.value;
+  const token = authHeader?.replace('Bearer ', '') || cookieToken;
+  
   const payload = token ? await verifyToken(token) : null;
   const isAdmin = payload?.role === 'admin';
 

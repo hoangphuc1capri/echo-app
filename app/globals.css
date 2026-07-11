@@ -25,6 +25,8 @@
   --echo-paper: #FAF6F0;
   --echo-cream: #F5EDE0;
   --echo-parchment: #EDE4D3;
+  --echo-parchment-light: #F5EDE0;
+  --echo-parchment-dark: #D4C9B8;
 
   /* Text Colors */
   --echo-ink: #2C1810;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Download, RefreshCw, Search, Trash2 } from 'lucide-react';
+import { Download, RefreshCw, Search, Trash2, FileText } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 const CAT_NAME: Record<string, string> = {
@@ -135,15 +135,21 @@ export default function AdminQuizResultsPage() {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-display font-bold text-[#2C1810]">Kết quả Quiz</h1>
-          <p className="text-sm text-[#6B5B4F] mt-0.5">{total} kết quả</p>
+          <h1 className="text-3xl font-display font-bold" style={{ color: 'var(--echo-ink)' }}>Kết quả Quiz</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--echo-ink-muted)' }}>{total} kết quả</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={load}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-[#E5DCC8] bg-white hover:bg-[#F5EDE0] transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border-2 transition-all disabled:opacity-50"
+            style={{ 
+              backgroundColor: 'white', 
+              borderColor: 'var(--echo-parchment-dark)',
+              color: 'var(--echo-ink)'
+            }}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Làm mới
@@ -151,7 +157,8 @@ export default function AdminQuizResultsPage() {
           <button
             onClick={exportExcel}
             disabled={!total || exporting}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-[#059669] text-white hover:bg-[#047857] disabled:opacity-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all shadow-md disabled:opacity-50"
+            style={{ backgroundColor: 'var(--echo-wood)', color: 'white' }}
           >
             <Download className="w-4 h-4" />
             {exporting ? 'Đang xuất...' : 'Xuất Excel'}
@@ -159,22 +166,29 @@ export default function AdminQuizResultsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E5DCC8] p-3 mb-4">
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div className="flex items-center gap-2 flex-1">
-            <Search className="w-4 h-4 text-[#6B5B4F]" />
+      {/* Filters */}
+      <div className="rounded-xl p-3 mb-6 shadow-sm" style={{ backgroundColor: 'white' }}>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex items-center gap-3 flex-1">
+            <Search className="w-5 h-5" style={{ color: 'var(--echo-ink-muted)' }} />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Tìm theo email/tên người dùng..."
               className="flex-1 bg-transparent text-sm focus:outline-none"
+              style={{ color: 'var(--echo-ink)' }}
             />
           </div>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="px-3 py-1.5 text-sm rounded-lg border border-[#E5DCC8] bg-white focus:outline-none"
+            className="px-4 py-2.5 text-sm rounded-xl border-2 focus:outline-none transition-all"
+            style={{ 
+              borderColor: 'var(--echo-parchment-dark)', 
+              color: 'var(--echo-ink)',
+              backgroundColor: 'white'
+            }}
           >
             <option value="">Tất cả nhóm</option>
             {CATS.map((c) => (
@@ -187,72 +201,76 @@ export default function AdminQuizResultsPage() {
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-          {error}
+        <div className="mb-6 p-4 rounded-xl border-2" style={{ backgroundColor: '#FEE2E2', borderColor: '#FECACA', color: '#DC2626' }}>
+          <p className="text-sm font-medium">{error}</p>
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-[#E5DCC8] overflow-hidden">
+      {/* Table */}
+      <div className="rounded-2xl overflow-hidden shadow-md" style={{ backgroundColor: 'white' }}>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#FAF6F0] border-b border-[#E5DCC8] text-xs text-[#6B5B4F] uppercase">
-                <th className="text-left px-4 py-3 font-medium w-10">#</th>
-                <th className="text-left px-4 py-3 font-medium">Người dùng</th>
-                <th className="text-left px-4 py-3 font-medium">Nhóm</th>
-                <th className="text-right px-4 py-3 font-medium">Điểm</th>
-                <th className="text-right px-4 py-3 font-medium">%</th>
-                <th className="text-left px-4 py-3 font-medium">Ngày</th>
-                <th className="text-right px-4 py-3 font-medium w-20"></th>
+              <tr style={{ backgroundColor: 'var(--echo-parchment-light)' }}>
+                <th className="text-left px-5 py-4 font-semibold w-12" style={{ color: 'var(--echo-ink)' }}>#</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Người dùng</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Nhóm</th>
+                <th className="text-right px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Điểm</th>
+                <th className="text-right px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>%</th>
+                <th className="text-left px-5 py-4 font-semibold" style={{ color: 'var(--echo-ink)' }}>Ngày</th>
+                <th className="text-right px-5 py-4 font-semibold w-24" style={{ color: 'var(--echo-ink)' }}></th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center text-[#6B5B4F]">
-                    Đang tải...
+                  <td colSpan={7} className="px-5 py-12 text-center">
+                    <div className="w-6 h-6 rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--echo-parchment)', borderTopColor: 'var(--echo-wood)' }} />
                   </td>
                 </tr>
               ) : results.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center text-[#6B5B4F]">
+                  <td colSpan={7} className="px-5 py-12 text-center" style={{ color: 'var(--echo-ink-muted)' }}>
                     Không có dữ liệu
                   </td>
                 </tr>
               ) : (
                 results.map((r, i) => (
-                  <tr key={r._id} className="border-b border-[#F5EDE0] last:border-0 hover:bg-[#FAF6F0]">
-                    <td className="px-4 py-3 text-[#6B5B4F]">{(page - 1) * limit + i + 1}</td>
-                    <td className="px-4 py-3">
-                      <div className="text-[#2C1810] truncate max-w-[220px]">
+                  <tr 
+                    key={r._id} 
+                    className="border-t transition-colors"
+                    style={{ borderColor: 'var(--echo-parchment)' }}
+                  >
+                    <td className="px-5 py-4" style={{ color: 'var(--echo-ink-muted)' }}>{(page - 1) * limit + i + 1}</td>
+                    <td className="px-5 py-4">
+                      <div className="truncate max-w-[200px]" style={{ color: 'var(--echo-ink)' }}>
                         {r.userId?.name || r.userId?.email?.split('@')[0] || '—'}
                       </div>
-                      <div className="text-xs text-[#6B5B4F] truncate max-w-[220px]">
+                      <div className="text-xs truncate max-w-[200px]" style={{ color: 'var(--echo-ink-muted)' }}>
                         {r.userId?.email || '—'}
                       </div>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4">
                       <span
-                        className="inline-block px-2 py-0.5 rounded-full text-xs text-white"
+                        className="inline-block px-3 py-1.5 rounded-full text-xs text-white font-medium"
                         style={{ backgroundColor: CAT_COLOR[r.category] || '#6B5B4F' }}
                       >
                         {CAT_NAME[r.category] || r.category}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right font-semibold text-[#2C1810]">{r.score}</td>
-                    <td className="px-4 py-3 text-right font-semibold" style={{ color: CAT_COLOR[r.category] }}>
-                      {r.percentage}%
-                    </td>
-                    <td className="px-4 py-3 text-[#6B5B4F] text-xs">
+                    <td className="px-5 py-4 text-right font-bold" style={{ color: 'var(--echo-ink)' }}>{r.score}</td>
+                    <td className="px-5 py-4 text-right font-bold" style={{ color: CAT_COLOR[r.category] }}>{r.percentage}%</td>
+                    <td className="px-5 py-4 text-xs" style={{ color: 'var(--echo-ink-muted)' }}>
                       {new Date(r.createdAt).toLocaleDateString('vi-VN')}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-5 py-4 text-right">
                       <button
                         onClick={() => handleDelete(r._id)}
                         disabled={deleting === r._id}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-50"
+                        style={{ color: '#DC2626', backgroundColor: '#FEE2E2' }}
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-4 h-4" />
                         {deleting === r._id ? '...' : 'Xóa'}
                       </button>
                     </td>
@@ -264,25 +282,27 @@ export default function AdminQuizResultsPage() {
         </div>
 
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[#E5DCC8] text-xs text-[#6B5B4F]">
-            <span>
+          <div className="flex items-center justify-between px-5 py-4 border-t" style={{ borderColor: 'var(--echo-parchment)' }}>
+            <span className="text-sm" style={{ color: 'var(--echo-ink-muted)' }}>
               {(page - 1) * limit + 1}–{Math.min(page * limit, total)} / {total}
             </span>
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-3 py-1 rounded border border-[#E5DCC8] bg-white disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl border-2 transition-all disabled:opacity-50"
+                style={{ backgroundColor: 'white', borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
               >
                 Trước
               </button>
-              <span className="px-3 py-1">
+              <span className="px-4 py-2 text-sm font-medium" style={{ color: 'var(--echo-ink)' }}>
                 {page}/{totalPages}
               </span>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-3 py-1 rounded border border-[#E5DCC8] bg-white disabled:opacity-50"
+                className="px-4 py-2 text-sm rounded-xl border-2 transition-all disabled:opacity-50"
+                style={{ backgroundColor: 'white', borderColor: 'var(--echo-parchment-dark)', color: 'var(--echo-ink)' }}
               >
                 Sau
               </button>

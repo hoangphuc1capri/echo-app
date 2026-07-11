@@ -36,14 +36,16 @@ export default function MainLayout({
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
-    const isAdmin = userData ? JSON.parse(userData).role === 'admin' : false;
-    if (isAdmin) {
+    if (!userData) {
+      router.push('/auth');
+      return;
+    }
+    const parsed = JSON.parse(userData);
+    if (parsed.role === 'admin') {
       router.push('/admin');
       return;
     }
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    setUser(parsed);
   }, [router]);
 
   const handleLogout = () => {
