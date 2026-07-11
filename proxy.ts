@@ -54,5 +54,21 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*', '/quiz/:path*', '/dashboard/:path*', '/results/:path*', '/letter/:path*', '/settings/:path*', '/leaderboard/:path*'],
+  matcher: [
+    '/admin/:path*',
+    '/api/admin/:path*',
+    '/quiz/:path*',
+    '/dashboard/:path*',
+    '/results/:path*',
+    '/letter/:path*',
+    '/settings/:path*',
+    '/leaderboard/:path*',
+    // Also match base paths
+    '/quiz',
+    '/dashboard',
+    '/results',
+    '/letter',
+    '/settings',
+    '/leaderboard',
+  ],
 };

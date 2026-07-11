@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
-import { signToken } from '@/lib/auth';
+import { signToken, setAuthCookie } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,7 +44,8 @@ export async function POST(request: NextRequest) {
       role: user.role,
     });
 
-    return NextResponse.json({
+    // Set HTTP-only cookie
+    const response = NextResponse.json({
       success: true,
       data: {
         user: {
@@ -56,6 +57,9 @@ export async function POST(request: NextRequest) {
         token,
       },
     });
+
+    await setAuthCookie(token);
+    return response;
   } catch (error) {
     console.error('Register error:', error);
     return NextResponse.json(
